@@ -41,7 +41,7 @@ class User {
   @override
   int get hashCode => name.hashCode ^ password.hashCode;
 }
-
+//dmaldmasl
 class AuthModel {
   final String _token;
 
