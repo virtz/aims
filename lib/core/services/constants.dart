@@ -1,0 +1,15 @@
+const String costcenterBoxName = 'costcenter';
+const String locationBoxName = 'location';
+const String parameterBoxName = 'parameter';
+const String controlBoxName = 'control';
+const String assetCategoryBoxName = 'asset_category';
+const String assetSubCatogoryBoxName = 'asset_subcatpry';
+const String assetTypeBoxName = 'asset_type';
+const String assetNameBoxName = 'asset_name';
+const String assetConditionBoxName = 'asset_condition';
+const String captuedDataBoxName = 'captured_data';
+const String siteIssuesBoxName = 'site_issues';
+const String drop1DataBoxName = 'drop1_data';
+const String drop2DataBoxName = 'drop2_data';
+const String drop3DataBoxName = 'drop3_data';
+const String miscBoxName = "misc";
