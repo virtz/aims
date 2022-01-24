@@ -1,5 +1,10 @@
 import 'dart:io';
 
+import 'package:aims/core/models/aset_subcategory.dart';
+import 'package:aims/core/models/asset_category.dart';
+import 'package:aims/core/models/asset_name.dart';
+import 'package:aims/core/models/asset_type.dart';
+import 'package:aims/core/models/captured_data.dart';
 import 'package:aims/ui/screens/data_capture/data_capture_view_model.dart';
 import 'package:aims/ui/widgets/custom_button.dart';
 import 'package:aims/ui/widgets/custom_dropdown.dart';
@@ -12,7 +17,10 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class DataCapture extends StatefulWidget {
-  const DataCapture({Key? key}) : super(key: key);
+  final CapturedData? cd;
+  final bool isFromAudit;
+  const DataCapture({Key? key, this.cd, this.isFromAudit = false})
+      : super(key: key);
 
   @override
   _DataCaptureState createState() => _DataCaptureState();
@@ -81,6 +89,36 @@ class _DataCaptureState extends State<DataCapture> {
         // model.getSubCategory();
         // model.getAssetType();
         // model.getAssetName();
+        if (widget.isFromAudit) {
+          model.getCategories1();
+          model.getSubCategory1();
+          model.getAssetType1();
+          model.getAssetName1();
+          childBarcode.text = widget.cd!.barcode!;
+          serialNumber.text = widget.cd!.serialNo!;
+          model.selectedContiion = widget.cd!.condition!;
+          comment.text = widget.cd!.comment!;
+          // model.selectedStatus = widget.cd!.status!;
+          isParent = widget.cd!.isParent!;
+          parentBarcode.text = widget.cd!.parentBarcode!;
+          assetOwner.text = widget.cd!.person!;
+          model.drop1SelectedValue = widget.cd!.drop1;
+          model.drop2SelectedValue = widget.cd!.drop2;
+          model.drop3SelectedValue = widget.cd!.drop3;
+          // manufacturer.text = model.misc!.manufacturer!;
+          // chasisNumber.text = model.misc!.chasisNo!;
+          model.lookUpProductWithCode(widget.cd!.product!);
+          extraBarcode1.text = widget.cd!.brExtra1!;
+          extraBarcode2.text = widget.cd!.brExtra2!;
+          extraTextField1.text = widget.cd!.text1!;
+          extraTextField2.text = widget.cd!.text2!;
+          extraTextField3.text = widget.cd!.text3!;
+          extraTextField4.text = widget.cd!.text4!;
+          extraTextField5.text = widget.cd!.text5!;
+          extraTextField6.text = widget.cd!.text6!;
+          extraTextField7.text = widget.cd!.text7!;
+          extraTextField8.text = widget.cd!.text8!;
+        }
       },
       viewModelBuilder: () => DataCaptureViewModel(),
       builder: (context, model, child) => Scaffold(
@@ -215,7 +253,7 @@ class _DataCaptureState extends State<DataCapture> {
                         model.showLevel4
                             ? CustomDropdown(
                                 label: model.parameterList[0].assetLevel4Name,
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<AssetCategory>(
                                   isExpanded: true,
                                   value: model.selectedPrdtCat,
                                   // validator: (value) {
@@ -232,13 +270,11 @@ class _DataCaptureState extends State<DataCapture> {
                                   elevation: 0,
                                   style: TextStyle(color: Colors.black),
                                   dropdownColor: Colors.white,
-                                  items: model.categoryList
-                                      .map((item) => item.caption)
-                                      .map((value) {
-                                    return new DropdownMenuItem<String>(
+                                  items: model.categoryList.map((value) {
+                                    return new DropdownMenuItem<AssetCategory>(
                                       value: value,
                                       child: new Text(
-                                        value ?? '',
+                                        value.caption ?? '',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     );
@@ -255,7 +291,7 @@ class _DataCaptureState extends State<DataCapture> {
                         model.showLevel3
                             ? CustomDropdown(
                                 label: model.parameterList[0].assetLevel3Name,
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<AssetSubCategory>(
                                   isExpanded: true,
                                   value: model.selectedPrdtSubCat,
 
@@ -267,13 +303,12 @@ class _DataCaptureState extends State<DataCapture> {
                                   elevation: 0,
                                   style: TextStyle(color: Colors.black),
                                   dropdownColor: Colors.white,
-                                  items: model.subCategoryList
-                                      .map((e) => e.caption)
-                                      .map((value) {
-                                    return new DropdownMenuItem<String>(
+                                  items: model.subCategoryList.map((value) {
+                                    return new DropdownMenuItem<
+                                        AssetSubCategory>(
                                       value: value,
                                       child: new Text(
-                                        value ?? "",
+                                        value.caption ?? "",
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     );
@@ -290,7 +325,7 @@ class _DataCaptureState extends State<DataCapture> {
                         model.showLevel2
                             ? CustomDropdown(
                                 label: model.parameterList[0].assetLevel2Name,
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<AssetType>(
                                   isExpanded: true,
                                   value: model.selectedAssetType,
 
@@ -302,13 +337,11 @@ class _DataCaptureState extends State<DataCapture> {
                                   elevation: 0,
                                   style: TextStyle(color: Colors.black),
                                   dropdownColor: Colors.white,
-                                  items: model.assetTypeList
-                                      .map((e) => e.caption)
-                                      .map((value) {
-                                    return new DropdownMenuItem<String>(
+                                  items: model.assetTypeList.map((value) {
+                                    return new DropdownMenuItem<AssetType>(
                                       value: value,
                                       child: new Text(
-                                        value ?? "",
+                                        value.caption ?? "",
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     );
@@ -324,7 +357,7 @@ class _DataCaptureState extends State<DataCapture> {
                         ),
                         CustomDropdown(
                           label: model.parameterList[0].assetLevel1Name,
-                          child: new DropdownButton<String>(
+                          child: new DropdownButton<AssetName>(
                             isExpanded: true,
                             value: model.selectedAssetName,
 
@@ -336,13 +369,11 @@ class _DataCaptureState extends State<DataCapture> {
                             elevation: 0,
                             style: TextStyle(color: Colors.black),
                             dropdownColor: Colors.white,
-                            items: model.assetNameList
-                                .map((e) => e.caption)
-                                .map((String? value) {
-                              return new DropdownMenuItem<String>(
+                            items: model.assetNameList.map((value) {
+                              return new DropdownMenuItem<AssetName>(
                                 value: value,
                                 child: new Text(
-                                  value ?? "",
+                                  value.caption ?? "",
                                   style: TextStyle(color: Colors.black),
                                 ),
                               );
@@ -840,7 +871,8 @@ class _DataCaptureState extends State<DataCapture> {
                               ? Column(
                                   children: [
                                     CustomTextFieldWidget(
-                                        readOnly: true,
+                                        //TODO:
+                                        // readOnly: true,
                                         label: model.controlList[1]
                                                 .userDefinedName ??
                                             'Extra Barcode',
@@ -1110,16 +1142,17 @@ class _DataCaptureState extends State<DataCapture> {
                                   // if (formKey.currentState!.validate()) {
 
                                   // ignore: unnecessary_null_comparison
-                                  // var photo2;
-                                  // var photo3;
-                                  // var photo4;
-                                  // var photo1 =
+                                  var photo2;
+                                  var photo3;
+                                  var photo4;
+                                  var photo1;
+                                  //Todo:
                                   //     model.convertImageToBase64(image1.path);
                                   // if (image2.path.isNotEmpty) {
                                   //   photo2 =
                                   //       model.convertImageToBase64(image2.path);
                                   // }
-                                  // // var photo2 = model.convertImageToBase64(image2.path);
+
                                   // if (image3.path.isNotEmpty) {
                                   //   photo3 =
                                   //       model.convertImageToBase64(image3.path);

@@ -25,6 +25,6 @@ class Drop1DataModel {
 
   @override
   String toString() {
-    return 'Drop1DataModel(id: $id, caption: $caption, code: $code, year: $year, client: $client)';
+    return 'Drop1DataModel(ID: $id, caption: $caption, code: $code, year: $year, client: $client)';
   }
 }

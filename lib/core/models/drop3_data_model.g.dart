@@ -56,15 +56,14 @@ class Drop3DataModelAdapter extends TypeAdapter<Drop3DataModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-Drop3DataModel _$Drop3DataModelFromJson(Map<String, dynamic> json) {
-  return Drop3DataModel(
-    id: json['ID'] as int?,
-    caption: json['Caption'] as String?,
-    code: json['Code'] as String?,
-    year: json['Year'] as String?,
-    client: json['Client'] as String?,
-  );
-}
+Drop3DataModel _$Drop3DataModelFromJson(Map<String, dynamic> json) =>
+    Drop3DataModel(
+      id: json['ID'] as int?,
+      caption: json['Caption'] as String?,
+      code: json['Code'] as String?,
+      year: json['Year'] as String?,
+      client: json['Client'] as String?,
+    );
 
 Map<String, dynamic> _$Drop3DataModelToJson(Drop3DataModel instance) =>
     <String, dynamic>{

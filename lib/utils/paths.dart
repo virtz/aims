@@ -13,8 +13,9 @@ class Paths {
   static const String GET_SITE_ISSUES = '/siteissues';
   static const String SUBMIT_DATA = '/datacapture';
   static const String FETCH_DATA = '/datacapture/fetch';
-    static const String FETCH_COPY = '/datacapture/findCopy';
+  static const String FETCH_COPY = '/datacapture/findCopy';
   static const String GET_DROP1_DATA = "/drop1";
   static const String GET_DROP2_DATA = "/drop2";
   static const String GET_DROP3_DATA = "/drop3";
+  static const String DATA_AUDIT = "/dataaudit";
 }

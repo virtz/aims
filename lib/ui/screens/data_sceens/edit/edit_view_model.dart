@@ -43,10 +43,10 @@ class EditDataViewModel extends BaseModel {
   bool thirdImageSelected = false;
   bool fourthImageSelected = false;
 
-  String? selectedPrdtCat;
-  String? selectedPrdtSubCat;
-  String? selectedAssetType;
-  String? selectedAssetName;
+  AssetCategory? selectedPrdtCat;
+  AssetSubCategory? selectedPrdtSubCat;
+  AssetType? selectedAssetType;
+  AssetName? selectedAssetName;
   String? selectedContiion;
   String? selectedStatus;
   String? drop1SelectedValue;
@@ -158,7 +158,7 @@ class EditDataViewModel extends BaseModel {
     selectedPrdtCat = val;
     notifyListeners();
     var selectedCat = categoryList
-        .firstWhere((element) => element.caption == selectedPrdtCat);
+        .firstWhere((element) => element.caption == selectedPrdtCat!.caption);
     selectedPrdtSubCat = null;
     notifyListeners();
     getSubCategory(selectedCat.code);
@@ -167,8 +167,8 @@ class EditDataViewModel extends BaseModel {
   selectedSubcategory(val) {
     selectedPrdtSubCat = val;
     notifyListeners();
-    var selectedSubcat = subCategoryList
-        .firstWhere((element) => element.caption == selectedPrdtSubCat);
+    var selectedSubcat = subCategoryList.firstWhere(
+        (element) => element.caption == selectedPrdtSubCat!.caption);
     selectedAssetType = null;
     notifyListeners();
     getAssetType(selectedSubcat.p_Code);
@@ -178,7 +178,7 @@ class EditDataViewModel extends BaseModel {
     selectedAssetType = val;
     notifyListeners();
     var selectedssetType = assetTypeList
-        .firstWhere((element) => element.caption == selectedAssetType);
+        .firstWhere((element) => element.caption == selectedAssetType!.caption);
     notifyListeners();
     selectedAssetName = null;
     getAssetName(selectedssetType.p_Code);
@@ -466,7 +466,7 @@ class EditDataViewModel extends BaseModel {
       return false;
     }
     var slt = assetNameList
-        .firstWhere((element) => element.caption == selectedAssetName);
+        .firstWhere((element) => element.caption == selectedAssetName!.caption);
     // DateTime dateToday = DateTime(DateTime.now().year);
     var dateCaptured = formateDate(DateTime.now());
     var lastUpdated = formateDate(DateTime.now());

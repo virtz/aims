@@ -284,6 +284,7 @@ class StartViewModel extends BaseModel {
       "client": _authService.currentUser!.client,
     };
     final result = await _assetService.getAssetName(payload);
+    
     if (result is ErrorModel) {
       showErrorToast(result.error.toString());
     } else {

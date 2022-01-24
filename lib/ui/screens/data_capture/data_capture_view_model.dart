@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:aims/base_model.dart';
@@ -42,10 +43,10 @@ class DataCaptureViewModel extends BaseModel {
   bool thirdImageSelected = false;
   bool fourthImageSelected = false;
 
-  String? selectedPrdtCat;
-  String? selectedPrdtSubCat;
-  String? selectedAssetType;
-  String? selectedAssetName;
+  AssetCategory? selectedPrdtCat;
+  AssetSubCategory? selectedPrdtSubCat;
+  AssetType? selectedAssetType;
+  AssetName? selectedAssetName;
   String? selectedContiion;
   String? selectedStatus;
   String? drop1SelectedValue;
@@ -157,7 +158,7 @@ class DataCaptureViewModel extends BaseModel {
     selectedPrdtCat = val;
     notifyListeners();
     var selectedCat = categoryList
-        .firstWhere((element) => element.caption == selectedPrdtCat);
+        .firstWhere((element) => element.caption == selectedPrdtCat!.caption);
     selectedPrdtSubCat = null;
     notifyListeners();
     getSubCategory(selectedCat.code);
@@ -166,8 +167,8 @@ class DataCaptureViewModel extends BaseModel {
   selectedSubcategory(val) {
     selectedPrdtSubCat = val;
     notifyListeners();
-    var selectedSubcat = subCategoryList
-        .firstWhere((element) => element.caption == selectedPrdtSubCat);
+    var selectedSubcat = subCategoryList.firstWhere(
+        (element) => element.caption == selectedPrdtSubCat!.caption);
     selectedAssetType = null;
     notifyListeners();
     getAssetType(selectedSubcat.p_Code);
@@ -177,7 +178,7 @@ class DataCaptureViewModel extends BaseModel {
     selectedAssetType = val;
     notifyListeners();
     var selectedssetType = assetTypeList
-        .firstWhere((element) => element.caption == selectedAssetType);
+        .firstWhere((element) => element.caption == selectedAssetType!.caption);
     notifyListeners();
     selectedAssetName = null;
     getAssetName(selectedssetType.p_Code);
@@ -219,7 +220,7 @@ class DataCaptureViewModel extends BaseModel {
       assetNameList = assetNames
           .where((element) => element.parentCode == assetTypeCode)
           .toList();
-      print(assetNameList);
+      log(assetNameList.toString());
       notifyListeners();
     }
   }
@@ -377,7 +378,7 @@ class DataCaptureViewModel extends BaseModel {
 
   formateDate(DateTime dateTime) {
     // DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('yyyy-MM-dd – kk:mm');
+    DateFormat formatter = DateFormat('yyyy-MM-dd – kk:mm:a');
     String formattedDate = formatter.format(dateTime);
     print(formattedDate);
     return formattedDate;
@@ -434,7 +435,7 @@ class DataCaptureViewModel extends BaseModel {
       return false;
     }
     var slt = assetNameList
-        .firstWhere((element) => element.caption == selectedAssetName);
+        .firstWhere((element) => element.caption == selectedAssetName!.caption);
     // DateTime dateToday = DateTime(DateTime.now().year);
     var dateCaptured = formateDate(DateTime.now());
     var lastUpdated = formateDate(DateTime.now());
@@ -514,5 +515,86 @@ class DataCaptureViewModel extends BaseModel {
     setFirstPage(true);
     setSecondPage(false);
     setThirdPage(false);
+  }
+
+  lookUpProductWithCode(String code) {
+    selectedAssetName = assetNameList.firstWhere(
+        (element) => element.p_Code == code,
+        orElse: () => AssetName());
+    notifyListeners();
+    print(selectedAssetName);
+
+    if (selectedAssetName!.parentCode != null)
+      lookUpAssetTypewithParentCode(selectedAssetName!.parentCode!);
+    if (selectedAssetType!.subCat_Code != null)
+      lookUpAssetSubCatWithParentCode(selectedAssetType!.subCat_Code!);
+    if (selectedPrdtSubCat!.cat_Code != null)
+      lookUpAssetcategoryWithParentCode(selectedPrdtSubCat!.cat_Code!);
+  }
+
+  lookUpAssetTypewithParentCode(String code) {
+    selectedAssetType = assetTypeList.firstWhere(
+        (element) => element.p_Code == code,
+        orElse: () => AssetType());
+    notifyListeners();
+  }
+
+  lookUpAssetSubCatWithParentCode(String code) {
+    selectedPrdtSubCat = subCategoryList.firstWhere(
+        (element) => element.p_Code == code,
+        orElse: () => AssetSubCategory());
+    notifyListeners();
+  }
+
+  lookUpAssetcategoryWithParentCode(String code) {
+    selectedPrdtCat = categoryList.firstWhere((element) => element.code == code,
+        orElse: () => AssetCategory());
+    notifyListeners();
+  }
+
+  // for Audit(),
+  getAssetName1() {
+    final box = Hive.box<AssetName>(assetNameBoxName);
+    if (box.isOpen && box.isNotEmpty) {
+      List<AssetName> assetNames = box.values.toList();
+      assetNameList = assetNames;
+      //     .where((element) => element.parentCode == assetTypeCode)
+      //     .toList();
+      // log(assetNameList.toString());
+      notifyListeners();
+    }
+  }
+
+  getSubCategory1() {
+    final box = Hive.box<AssetSubCategory>(assetSubCatogoryBoxName);
+    if (box.isOpen && box.isNotEmpty) {
+      List<AssetSubCategory> subcatList = box.values.toList();
+      subCategoryList = subcatList;
+      if (subCategoryList.isEmpty) {
+        subCategoryList = [];
+        notifyListeners();
+      }
+
+      print(subCategoryList);
+      notifyListeners();
+    }
+  }
+
+  getAssetType1() {
+    final box = Hive.box<AssetType>(assetTypeBoxName);
+    if (box.isOpen && box.isNotEmpty) {
+      List<AssetType> assetTypes = box.values.toList();
+      assetTypeList = assetTypes;
+      print(assetTypeList);
+      notifyListeners();
+    }
+  }
+
+  getCategories1() {
+    final box = Hive.box<AssetCategory>(assetCategoryBoxName);
+    if (box.isOpen && box.isNotEmpty) {
+      categoryList = box.values.toList();
+      notifyListeners();
+    }
   }
 }

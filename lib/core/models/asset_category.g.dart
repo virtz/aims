@@ -17,15 +17,15 @@ class AssetCategoryAdapter extends TypeAdapter<AssetCategory> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AssetCategory(
-      fields[0] as int?,
-      fields[1] as String?,
-      fields[2] as String?,
-      fields[3] as String?,
-      fields[4] as String?,
-      fields[5] as String?,
-      fields[6] as String?,
-      fields[7] as String?,
-      fields[8] as String?,
+      id: fields[0] as int?,
+      code: fields[1] as String?,
+      caption: fields[2] as String?,
+      year: fields[3] as String?,
+      createdBy: fields[4] as String?,
+      updatedBy: fields[5] as String?,
+      dateCreated: fields[6] as String?,
+      lastUpdated: fields[7] as String?,
+      client: fields[8] as String?,
     );
   }
 
@@ -68,19 +68,18 @@ class AssetCategoryAdapter extends TypeAdapter<AssetCategory> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-AssetCategory _$AssetCategoryFromJson(Map<String, dynamic> json) {
-  return AssetCategory(
-    json['ID'] as int?,
-    json['Code'] as String?,
-    json['Caption'] as String?,
-    json['Year'] as String?,
-    json['CreatedBy'] as String?,
-    json['UpdatedBy'] as String?,
-    json['DateCreated'] as String?,
-    json['LastUpdated'] as String?,
-    json['Client'] as String?,
-  );
-}
+AssetCategory _$AssetCategoryFromJson(Map<String, dynamic> json) =>
+    AssetCategory(
+      id: json['ID'] as int?,
+      code: json['Code'] as String?,
+      caption: json['Caption'] as String?,
+      year: json['Year'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      updatedBy: json['UpdatedBy'] as String?,
+      dateCreated: json['DateCreated'] as String?,
+      lastUpdated: json['LastUpdated'] as String?,
+      client: json['Client'] as String?,
+    );
 
 Map<String, dynamic> _$AssetCategoryToJson(AssetCategory instance) =>
     <String, dynamic>{

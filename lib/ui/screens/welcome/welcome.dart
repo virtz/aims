@@ -180,7 +180,9 @@ class Welcome extends StatelessWidget {
                           height: size.height,
                           // elevation: 3.0,
                           // color: Colors.grey,
-                          onPressed: () {},
+                          onPressed: () {
+                            AutoRouter.of(context).push(const DataAudit());
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -203,7 +205,7 @@ class Welcome extends StatelessWidget {
                         // elevation: 3.0,
                         // color: Colors.grey,
                         onPressed: () {
-                          context.router.push(const DataCapture());
+                          context.router.push( DataCapture());
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -262,9 +264,10 @@ class WelcomeCard extends StatelessWidget {
                     children: [
                       Container(
                         width: size.width - 120,
+                        height: size.height * 0.03,
                         child: Text(
                           '$title',
-                          overflow: TextOverflow.visible,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontSize: 15.0, fontWeight: FontWeight.w500),
                         ),

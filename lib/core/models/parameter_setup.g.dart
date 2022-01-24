@@ -77,22 +77,21 @@ class ParameterSetUpAdapter extends TypeAdapter<ParameterSetUp> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ParameterSetUp _$ParameterSetUpFromJson(Map<String, dynamic> json) {
-  return ParameterSetUp(
-    json['Client'] as String?,
-    json['AssetLevelCount'] as int?,
-    json['Year'] as String?,
-    json['AssetLevel1Name'] as String?,
-    json['AssetLevel2Name'] as String?,
-    json['AssetLevel3Name'] as String?,
-    json['AssetLevel4Name'] as String?,
-    json['Manufacturer'] as String?,
-    json['SerialNo'] as String?,
-    json['ChasisNo'] as String?,
-    json['EngineN0'] as String?,
-    json['CaptureMode'] as String?,
-  );
-}
+ParameterSetUp _$ParameterSetUpFromJson(Map<String, dynamic> json) =>
+    ParameterSetUp(
+      json['Client'] as String?,
+      json['AssetLevelCount'] as int?,
+      json['Year'] as String?,
+      json['AssetLevel1Name'] as String?,
+      json['AssetLevel2Name'] as String?,
+      json['AssetLevel3Name'] as String?,
+      json['AssetLevel4Name'] as String?,
+      json['Manufacturer'] as String?,
+      json['SerialNo'] as String?,
+      json['ChasisNo'] as String?,
+      json['EngineN0'] as String?,
+      json['CaptureMode'] as String?,
+    );
 
 Map<String, dynamic> _$ParameterSetUpToJson(ParameterSetUp instance) =>
     <String, dynamic>{

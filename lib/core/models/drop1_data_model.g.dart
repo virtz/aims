@@ -56,15 +56,14 @@ class Drop1DataModelAdapter extends TypeAdapter<Drop1DataModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-Drop1DataModel _$Drop1DataModelFromJson(Map<String, dynamic> json) {
-  return Drop1DataModel(
-    id: json['ID'] as int?,
-    caption: json['Caption'] as String?,
-    code: json['Code'] as String?,
-    year: json['Year'] as String?,
-    client: json['Client'] as String?,
-  );
-}
+Drop1DataModel _$Drop1DataModelFromJson(Map<String, dynamic> json) =>
+    Drop1DataModel(
+      id: json['ID'] as int?,
+      caption: json['Caption'] as String?,
+      code: json['Code'] as String?,
+      year: json['Year'] as String?,
+      client: json['Client'] as String?,
+    );
 
 Map<String, dynamic> _$Drop1DataModelToJson(Drop1DataModel instance) =>
     <String, dynamic>{

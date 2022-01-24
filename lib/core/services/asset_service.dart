@@ -239,4 +239,24 @@ class AssetService {
       return ErrorModel(e);
     }
   }
+
+  dataAuditSertvice(Map<String, dynamic> payload) async {
+    try {
+      final result = await http.post(Paths.DATA_AUDIT, payload);
+      if (result is ErrorModel) {
+        return ErrorModel(result.error);
+      }
+      if (result is SuccessModel) {
+        var data = result.data;
+        // CapturedData cd = CapturedData.fromJson(data);
+        List<CapturedData> cds =
+            List.from(data.map((item) => CapturedData.fromJson(item)));
+
+        CapturedData cd = cds[0];
+        return SuccessModel(cd);
+      }
+    } catch (e) {
+      return ErrorModel(e);
+    }
+  }
 }

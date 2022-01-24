@@ -53,14 +53,12 @@ class ClientModelAdapter extends TypeAdapter<ClientModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ClientModel _$ClientModelFromJson(Map<String, dynamic> json) {
-  return ClientModel(
-    json['ClientID'] as int?,
-    json['ClientName'] as String?,
-    json['ClientCode'] as String?,
-    json['Status'] as String?,
-  );
-}
+ClientModel _$ClientModelFromJson(Map<String, dynamic> json) => ClientModel(
+      json['ClientID'] as int?,
+      json['ClientName'] as String?,
+      json['ClientCode'] as String?,
+      json['Status'] as String?,
+    );
 
 Map<String, dynamic> _$ClientModelToJson(ClientModel instance) =>
     <String, dynamic>{

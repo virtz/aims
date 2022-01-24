@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:aims/core/models/aset_subcategory.dart';
+import 'package:aims/core/models/asset_category.dart';
+import 'package:aims/core/models/asset_name.dart';
+import 'package:aims/core/models/asset_type.dart';
 import 'package:aims/core/models/captured_data.dart';
 import 'package:aims/ui/screens/data_capture/data_capture_view_model.dart';
 import 'package:aims/ui/screens/data_sceens/edit/edit_view_model.dart';
@@ -88,13 +92,13 @@ class _EditState extends State<Edit> {
         model.getAssetNames();
         model.getMiscData(widget.data!.product!);
         // widget.data!.product = model.selectedAssetName;
-        model.selectedPrdtCat = model.misc!.selectedCategory;
+        model.selectedPrdtCat = model.misc!.selectedCategory!;
         model.selectedPrdtSubCat = model.misc!.selectedSubCategory!;
 
         model.selectedAssetType = model.misc!.assetType!;
         var slt = model.assetNameList
             .firstWhere((element) => element.p_Code == widget.data!.product);
-        model.selectedAssetName = slt.caption;
+        model.selectedAssetName = slt;
 
         print(widget.data!.product);
         childBarcode.text = widget.data!.barcode!;
@@ -270,7 +274,7 @@ class _EditState extends State<Edit> {
                         model.showLevel4
                             ? CustomDropdown(
                                 label: model.parameterList[0].assetLevel4Name,
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<AssetCategory>(
                                   isExpanded: true,
                                   value: model.selectedPrdtCat,
 
@@ -282,13 +286,11 @@ class _EditState extends State<Edit> {
                                   elevation: 0,
                                   style: TextStyle(color: Colors.black),
                                   dropdownColor: Colors.white,
-                                  items: model.categoryList
-                                      .map((item) => item.caption)
-                                      .map((value) {
-                                    return new DropdownMenuItem<String>(
+                                  items: model.categoryList.map((value) {
+                                    return new DropdownMenuItem<AssetCategory>(
                                       value: value,
                                       child: new Text(
-                                        value ?? '',
+                                        value.caption ?? '',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     );
@@ -305,7 +307,7 @@ class _EditState extends State<Edit> {
                         model.showLevel3
                             ? CustomDropdown(
                                 label: model.parameterList[0].assetLevel3Name,
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<AssetSubCategory>(
                                   isExpanded: true,
                                   value: model.selectedPrdtSubCat,
 
@@ -317,13 +319,12 @@ class _EditState extends State<Edit> {
                                   elevation: 0,
                                   style: TextStyle(color: Colors.black),
                                   dropdownColor: Colors.white,
-                                  items: model.subCategoryList
-                                      .map((e) => e.caption)
-                                      .map((value) {
-                                    return new DropdownMenuItem<String>(
+                                  items: model.subCategoryList.map((value) {
+                                    return new DropdownMenuItem<
+                                        AssetSubCategory>(
                                       value: value,
                                       child: new Text(
-                                        value ?? "",
+                                        value.caption ?? "",
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     );
@@ -340,7 +341,7 @@ class _EditState extends State<Edit> {
                         model.showLevel2
                             ? CustomDropdown(
                                 label: model.parameterList[0].assetLevel2Name,
-                                child: new DropdownButton<String>(
+                                child: new DropdownButton<AssetType>(
                                   isExpanded: true,
                                   value: model.selectedAssetType,
 
@@ -352,13 +353,11 @@ class _EditState extends State<Edit> {
                                   elevation: 0,
                                   style: TextStyle(color: Colors.black),
                                   dropdownColor: Colors.white,
-                                  items: model.assetTypeList
-                                      .map((e) => e.caption)
-                                      .map((value) {
-                                    return new DropdownMenuItem<String>(
+                                  items: model.assetTypeList.map((value) {
+                                    return new DropdownMenuItem<AssetType>(
                                       value: value,
                                       child: new Text(
-                                        value ?? "",
+                                        value.caption ?? "",
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     );
@@ -374,7 +373,7 @@ class _EditState extends State<Edit> {
                         ),
                         CustomDropdown(
                           label: model.parameterList[0].assetLevel1Name,
-                          child: new DropdownButton<String>(
+                          child: new DropdownButton<AssetName>(
                             isExpanded: true,
                             value: model.selectedAssetName,
 
@@ -386,13 +385,11 @@ class _EditState extends State<Edit> {
                             elevation: 0,
                             style: TextStyle(color: Colors.black),
                             dropdownColor: Colors.white,
-                            items: model.assetNameList
-                                .map((e) => e.caption)
-                                .map((String? value) {
-                              return new DropdownMenuItem<String>(
+                            items: model.assetNameList.map((value) {
+                              return new DropdownMenuItem<AssetName>(
                                 value: value,
                                 child: new Text(
-                                  value ?? "",
+                                  value.caption ?? "",
                                   style: TextStyle(color: Colors.black),
                                 ),
                               );

@@ -74,21 +74,19 @@ class AssetNameAdapter extends TypeAdapter<AssetName> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-AssetName _$AssetNameFromJson(Map<String, dynamic> json) {
-  return AssetName(
-    id: json['id'] as int?,
-    dateCreated: json['DateCreated'] as String?,
-    p_Code: json['P_Code'] as String?,
-    caption: json['Caption'] as String?,
-    parentCode: json['ParentCode'] as String?,
-    year: json['Year'] as String?,
-    createdBy: json['CreatedBy'] as String?,
-    updatedBy: json['UpdatedBy'] as String?,
-    lastUpdated: json['LastUpdated'] as String?,
-    client: json['Client'] as String?,
-    maxCount: json['MaxCount'] as int?,
-  );
-}
+AssetName _$AssetNameFromJson(Map<String, dynamic> json) => AssetName(
+      id: json['id'] as int?,
+      dateCreated: json['DateCreated'] as String?,
+      p_Code: json['P_Code'] as String?,
+      caption: json['Caption'] as String?,
+      parentCode: json['ParentCode'] as String?,
+      year: json['Year'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      updatedBy: json['UpdatedBy'] as String?,
+      lastUpdated: json['LastUpdated'] as String?,
+      client: json['Client'] as String?,
+      maxCount: json['MaxCount'] as int?,
+    );
 
 Map<String, dynamic> _$AssetNameToJson(AssetName instance) => <String, dynamic>{
       'id': instance.id,

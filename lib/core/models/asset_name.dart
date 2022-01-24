@@ -1,5 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 part 'asset_name.g.dart';
 
 @HiveType(typeId: 5)
@@ -46,4 +47,9 @@ class AssetName {
   factory AssetName.fromJson(Map<String, dynamic> json) =>
       _$AssetNameFromJson(json);
   Map<String, dynamic> toJson() => _$AssetNameToJson(this);
+
+  @override
+  String toString() {
+    return 'AssetName(id: $id, p_Code: $p_Code, caption: $caption, parentCode: $parentCode, year: $year, createdBy: $createdBy, updatedBy: $updatedBy, dateCreated: $dateCreated, lastUpdated: $lastUpdated, client: $client, maxCount: $maxCount)';
+  }
 }

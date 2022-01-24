@@ -77,22 +77,21 @@ class LocationModelAdapter extends TypeAdapter<LocationModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
-  return LocationModel(
-    json['ID'] as int?,
-    json['Name'] as String?,
-    json['Address'] as String?,
-    json['Year'] as String?,
-    json['Client'] as String?,
-    json['LGA'] as String?,
-    json['Agent'] as String?,
-    json['Latitude'] as String?,
-    json['Longitude'] as String?,
-    json['FSEName'] as String?,
-    json['FSENumber'] as String?,
-    json['StoreKeeper'] as String?,
-  );
-}
+LocationModel _$LocationModelFromJson(Map<String, dynamic> json) =>
+    LocationModel(
+      json['ID'] as int?,
+      json['Name'] as String?,
+      json['Address'] as String?,
+      json['Year'] as String?,
+      json['Client'] as String?,
+      json['LGA'] as String?,
+      json['Agent'] as String?,
+      json['Latitude'] as String?,
+      json['Longitude'] as String?,
+      json['FSEName'] as String?,
+      json['FSENumber'] as String?,
+      json['StoreKeeper'] as String?,
+    );
 
 Map<String, dynamic> _$LocationModelToJson(LocationModel instance) =>
     <String, dynamic>{

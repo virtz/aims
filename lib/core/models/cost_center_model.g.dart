@@ -56,15 +56,13 @@ class ConstCenterAdapter extends TypeAdapter<ConstCenter> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConstCenter _$ConstCenterFromJson(Map<String, dynamic> json) {
-  return ConstCenter(
-    id: json['ID'] as int?,
-    description: json['Description'] as String?,
-    code: json['Code'] as String?,
-    year: json['Year'] as String?,
-    client: json['Client'] as String?,
-  );
-}
+ConstCenter _$ConstCenterFromJson(Map<String, dynamic> json) => ConstCenter(
+      id: json['ID'] as int?,
+      description: json['Description'] as String?,
+      code: json['Code'] as String?,
+      year: json['Year'] as String?,
+      client: json['Client'] as String?,
+    );
 
 Map<String, dynamic> _$ConstCenterToJson(ConstCenter instance) =>
     <String, dynamic>{

@@ -17,12 +17,12 @@ class MiscAdapter extends TypeAdapter<Misc> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Misc(
-      fields[0] as String?,
-      fields[1] as String?,
-      fields[2] as String?,
+      fields[0] as AssetName?,
+      fields[1] as AssetCategory?,
+      fields[2] as AssetSubCategory?,
       fields[3] as String?,
       fields[4] as String?,
-      fields[5] as String?,
+      fields[5] as AssetType?,
       fields[6] as String?,
     );
   }
@@ -62,17 +62,25 @@ class MiscAdapter extends TypeAdapter<Misc> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-Misc _$MiscFromJson(Map<String, dynamic> json) {
-  return Misc(
-    json['product_name'] as String?,
-    json['selected_category'] as String?,
-    json['selected_sub_category'] as String?,
-    json['manufacturer'] as String?,
-    json['chasis_no'] as String?,
-    json['asset_type'] as String?,
-    json['product_code'] as String?,
-  );
-}
+Misc _$MiscFromJson(Map<String, dynamic> json) => Misc(
+      json['product_name'] == null
+          ? null
+          : AssetName.fromJson(json['product_name'] as Map<String, dynamic>),
+      json['selected_category'] == null
+          ? null
+          : AssetCategory.fromJson(
+              json['selected_category'] as Map<String, dynamic>),
+      json['selected_sub_category'] == null
+          ? null
+          : AssetSubCategory.fromJson(
+              json['selected_sub_category'] as Map<String, dynamic>),
+      json['manufacturer'] as String?,
+      json['chasis_no'] as String?,
+      json['asset_type'] == null
+          ? null
+          : AssetType.fromJson(json['asset_type'] as Map<String, dynamic>),
+      json['product_code'] as String?,
+    );
 
 Map<String, dynamic> _$MiscToJson(Misc instance) => <String, dynamic>{
       'product_name': instance.productName,

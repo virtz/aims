@@ -34,7 +34,7 @@ class AssetSubCategory {
   final String? client;
 
   AssetSubCategory(
-      this.id,
+      {this.id,
       this.p_Code,
       this.caption,
       this.cat_Code,
@@ -43,8 +43,13 @@ class AssetSubCategory {
       this.updatedBy,
       this.dateCreated,
       this.lastUpdated,
-      this.client);
+      this.client});
   factory AssetSubCategory.fromJson(Map<String, dynamic> json) =>
       _$AssetSubCategoryFromJson(json);
   Map<String, dynamic> toJson() => _$AssetSubCategoryToJson(this);
+
+  @override
+  String toString() {
+    return 'AssetSubCategory(id: $id, p_Code: $p_Code, caption: $caption, cat_Code: $cat_Code, year: $year, createdBy: $createdBy, updatedBy: $updatedBy, dateCreated: $dateCreated, lastUpdated: $lastUpdated, client: $client)';
+  }
 }

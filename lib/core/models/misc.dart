@@ -1,3 +1,7 @@
+import 'package:aims/core/models/aset_subcategory.dart';
+import 'package:aims/core/models/asset_category.dart';
+import 'package:aims/core/models/asset_name.dart';
+import 'package:aims/core/models/asset_type.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,17 +11,17 @@ part 'misc.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Misc {
   @HiveField(0)
-  final String? productName;
+  final AssetName? productName;
   @HiveField(1)
-  final String? selectedCategory;
+  final AssetCategory? selectedCategory;
   @HiveField(2)
-  final String? selectedSubCategory;
+  final AssetSubCategory? selectedSubCategory;
   @HiveField(3)
   final String? manufacturer;
   @HiveField(4)
   final String? chasisNo;
   @HiveField(5)
-  final String? assetType;
+  final AssetType? assetType;
     @HiveField(6)
   final String? productCode;
 

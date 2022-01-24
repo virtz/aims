@@ -21,6 +21,7 @@ class _SubmittedDataState extends State<SubmittedData> {
       viewModelBuilder: () => SubmittedDataViewModel(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text('Submitted Data'),
           centerTitle: true,
         ),

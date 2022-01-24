@@ -50,13 +50,11 @@ class StatusAdapter extends TypeAdapter<Status> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-Status _$StatusFromJson(Map<String, dynamic> json) {
-  return Status(
-    json['ID'] as int?,
-    json['Issue'] as String?,
-    json['Client'] as String?,
-  );
-}
+Status _$StatusFromJson(Map<String, dynamic> json) => Status(
+      json['ID'] as int?,
+      json['Issue'] as String?,
+      json['Client'] as String?,
+    );
 
 Map<String, dynamic> _$StatusToJson(Status instance) => <String, dynamic>{
       'ID': instance.ID,

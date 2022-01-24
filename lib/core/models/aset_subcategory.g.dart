@@ -17,16 +17,16 @@ class AssetSubCategoryAdapter extends TypeAdapter<AssetSubCategory> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AssetSubCategory(
-      fields[0] as int?,
-      fields[1] as String?,
-      fields[2] as String?,
-      fields[3] as String?,
-      fields[4] as String?,
-      fields[5] as String?,
-      fields[6] as String?,
-      fields[7] as String?,
-      fields[8] as String?,
-      fields[9] as String?,
+      id: fields[0] as int?,
+      p_Code: fields[1] as String?,
+      caption: fields[2] as String?,
+      cat_Code: fields[3] as String?,
+      year: fields[4] as String?,
+      createdBy: fields[5] as String?,
+      updatedBy: fields[6] as String?,
+      dateCreated: fields[7] as String?,
+      lastUpdated: fields[8] as String?,
+      client: fields[9] as String?,
     );
   }
 
@@ -71,20 +71,19 @@ class AssetSubCategoryAdapter extends TypeAdapter<AssetSubCategory> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-AssetSubCategory _$AssetSubCategoryFromJson(Map<String, dynamic> json) {
-  return AssetSubCategory(
-    json['id'] as int?,
-    json['P_Code'] as String?,
-    json['Caption'] as String?,
-    json['Cat_Code'] as String?,
-    json['Year'] as String?,
-    json['CreatedBy'] as String?,
-    json['UpdatedBy'] as String?,
-    json['DateCreated'] as String?,
-    json['LastUpdated'] as String?,
-    json['Client'] as String?,
-  );
-}
+AssetSubCategory _$AssetSubCategoryFromJson(Map<String, dynamic> json) =>
+    AssetSubCategory(
+      id: json['id'] as int?,
+      p_Code: json['P_Code'] as String?,
+      caption: json['Caption'] as String?,
+      cat_Code: json['Cat_Code'] as String?,
+      year: json['Year'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      updatedBy: json['UpdatedBy'] as String?,
+      dateCreated: json['DateCreated'] as String?,
+      lastUpdated: json['LastUpdated'] as String?,
+      client: json['Client'] as String?,
+    );
 
 Map<String, dynamic> _$AssetSubCategoryToJson(AssetSubCategory instance) =>
     <String, dynamic>{

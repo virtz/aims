@@ -21,6 +21,7 @@ class _RejectedDataState extends State<RejectedData> {
       viewModelBuilder: () => RejectedDataViewModel(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text('Rejected Data'),
           centerTitle: true,
         ),

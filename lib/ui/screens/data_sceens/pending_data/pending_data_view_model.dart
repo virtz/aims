@@ -24,8 +24,11 @@ class PendingDataViewModel extends BaseModel {
   final AuthService _authService = locator<AuthService>();
 
   var dataList = <CapturedData>[];
+  var filteredList = <CapturedData>[];
   bool isLoading = false;
   bool serverLoading = false;
+  bool isSearching = false;
+  int? dataCount;
 
   late List<List<dynamic>> capturedData;
 
@@ -41,6 +44,12 @@ class PendingDataViewModel extends BaseModel {
     notifyListeners();
   }
 
+  setIsSearching() {
+    isSearching = !isSearching;
+    dataCount = null;
+    notifyListeners();
+  }
+
   getCapturedData() async {
     final box = Hive.box<CapturedData>(captuedDataBoxName);
     List<CapturedData> data = box.values.toList();
@@ -50,6 +59,19 @@ class PendingDataViewModel extends BaseModel {
       showErrorToast('No captured data');
     }
     notifyListeners();
+  }
+
+  search(String value) {
+    filteredList = dataList
+        .where((element) =>
+            element.product!.contains(value) ||
+            element.barcode!.contains(value))
+        .toList();
+    notifyListeners();
+    if (filteredList.isEmpty) {
+      dataCount = 0;
+      notifyListeners();
+    }
   }
 
   sendToServer() async {

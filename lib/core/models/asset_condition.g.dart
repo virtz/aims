@@ -50,13 +50,12 @@ class AssetConditionAdapter extends TypeAdapter<AssetCondition> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-AssetCondition _$AssetConditionFromJson(Map<String, dynamic> json) {
-  return AssetCondition(
-    json['ID'] as int?,
-    json['Condition'] as String?,
-    json['Position'] as int?,
-  );
-}
+AssetCondition _$AssetConditionFromJson(Map<String, dynamic> json) =>
+    AssetCondition(
+      json['ID'] as int?,
+      json['Condition'] as String?,
+      json['Position'] as int?,
+    );
 
 Map<String, dynamic> _$AssetConditionToJson(AssetCondition instance) =>
     <String, dynamic>{

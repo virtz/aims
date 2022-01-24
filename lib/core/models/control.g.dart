@@ -56,15 +56,13 @@ class ControlAdapter extends TypeAdapter<Control> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-Control _$ControlFromJson(Map<String, dynamic> json) {
-  return Control(
-    client: json['Client'] as String?,
-    systemName: json['SystemName'] as String?,
-    userDefinedName: json['UserDefinedName'] as String?,
-    status: json['Status'] as String?,
-    dataType: json['DataType'] as String?,
-  );
-}
+Control _$ControlFromJson(Map<String, dynamic> json) => Control(
+      client: json['Client'] as String?,
+      systemName: json['SystemName'] as String?,
+      userDefinedName: json['UserDefinedName'] as String?,
+      status: json['Status'] as String?,
+      dataType: json['DataType'] as String?,
+    );
 
 Map<String, dynamic> _$ControlToJson(Control instance) => <String, dynamic>{
       'Client': instance.client,
