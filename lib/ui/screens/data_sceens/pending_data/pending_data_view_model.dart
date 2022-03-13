@@ -74,39 +74,106 @@ class PendingDataViewModel extends BaseModel {
     }
   }
 
-  sendToServer() async {
+  updateProduct(CapturedData data) async {
+    final result = await _assetService.submitDataToServer(data.toJson());
+
+    if (result is ErrorModel) {
+      setServerLoading(false);
+      showErrorToast(result.error.toString());
+      return;
+    } else if (result is SuccessModel) {
+      setServerLoading(false);
+      showToast('Data upload successful');
+      final box = Hive.box<CapturedData>(captuedDataBoxName);
+      box.delete(data.barcode);
+      List<CapturedData> data1 = box.values.toList();
+      dataList = data1;
+      notifyListeners();
+      return;
+    }
+    // print(dataList.length);
+    // showToast(payload.toString())
+  }
+  //? add bool iseEditted to captureddata
+  //? make bool true when data is passed from reject to data capture
+  //? check bool before sendding data
+
+  // sendToServer() async {
+  //   for (var data in dataList) {
+  //     print(data.toJson());
+  //     data.status = "Submitted";
+  //     log(data.toJson().toString());
+  //     setServerLoading(true);
+
+  //     var duplicateResult = await findCopy(data.barcode);
+  //     if (duplicateResult != null &&
+  //         duplicateResult is SuccessModel &&
+  //         duplicateResult.data == true) {
+  //       showErrorToast('An entity with this barcode already exists');
+  //       setServerLoading(false);
+  //       continue;
+  //     }
+
+  //     final result = await _assetService.submitDataToServer(data.toJson());
+
+  //     if (result is ErrorModel) {
+  //       setServerLoading(false);
+  //       showErrorToast(result.error.toString());
+  //     } else if (result is SuccessModel) {
+  //       setServerLoading(false);
+  //       showToast('Data upload successful');
+  //       final box = Hive.box<CapturedData>(captuedDataBoxName);
+  //       box.delete(data.barcode);
+  //       List<CapturedData> data1 = box.values.toList();
+  //       dataList = data1;
+  //       notifyListeners();
+  //     }
+  //     // print(dataList.length);
+  //     // showToast(payload.toString())
+
+  //   }
+  // }
+
+  sendDataToServer(data) async {
+    var duplicateResult = await findCopy(data.barcode);
+    if (duplicateResult != null &&
+        duplicateResult is SuccessModel &&
+        duplicateResult.data == true) {
+      showErrorToast('An entity with this barcode already exists');
+      setServerLoading(false);
+      return;
+    }
+
+    final result = await _assetService.submitDataToServer(data.toJson());
+
+    if (result is ErrorModel) {
+      setServerLoading(false);
+      showErrorToast(result.error.toString());
+      return;
+    } else if (result is SuccessModel) {
+      setServerLoading(false);
+      showToast('Data upload successful');
+      final box = Hive.box<CapturedData>(captuedDataBoxName);
+      box.delete(data.barcode);
+      List<CapturedData> data1 = box.values.toList();
+      dataList = data1;
+      notifyListeners();
+      return;
+    }
+  }
+
+  sortAndSend() {
     for (var data in dataList) {
       print(data.toJson());
       data.status = "Submitted";
       log(data.toJson().toString());
       setServerLoading(true);
-
-      var duplicateResult = await findCopy(data.barcode);
-      if (duplicateResult != null &&
-          duplicateResult is SuccessModel &&
-          duplicateResult.data == true) {
-        showErrorToast('An entity with this barcode already exists');
-        setServerLoading(false);
-        continue;
+      if (data.isEdited != null && data.isEdited!) {
+        updateProduct(data);
+        return;
       }
-
-      final result = await _assetService.submitDataToServer(data.toJson());
-
-      if (result is ErrorModel) {
-        setServerLoading(false);
-        showErrorToast(result.error.toString());
-      } else if (result is SuccessModel) {
-        setServerLoading(false);
-        showToast('Data upload successful');
-        final box = Hive.box<CapturedData>(captuedDataBoxName);
-        box.delete(data.barcode);
-        List<CapturedData> data1 = box.values.toList();
-        dataList = data1;
-        notifyListeners();
-      }
-      // print(dataList.length);
-      // showToast(payload.toString())
-
+      sendDataToServer(data);
+      return;
     }
   }
 

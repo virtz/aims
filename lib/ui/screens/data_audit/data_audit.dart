@@ -119,7 +119,7 @@ class _DataAuditState extends State<DataAudit> {
                               _alertDialog(
                                   Text("Product Found"),
                                   Text(
-                                      'Product with entered barcode  found but with a  different location, you like to update product?'),
+                                      'Product with entered barcode  found but with a  different location, would you like to update the product?'),
                                   () {
                                 AutoRouter.of(context).push(DataCapture(
                                     cd: model.cd, isFromAudit: true));

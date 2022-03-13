@@ -44,7 +44,7 @@ class _SubmittedDataState extends State<SubmittedData> {
                             height: size.height * 0.8,
                             child: ListView.builder(
                               shrinkWrap: true,
-                              // physics: NeverScrollableScrollPhysics(),
+                              physics: BouncingScrollPhysics(),
                               itemCount: model.dataList.length,
                               itemBuilder: (context, index) {
                                 CapturedData cd = model.dataList[index];

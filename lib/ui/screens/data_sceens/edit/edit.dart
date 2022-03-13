@@ -5,7 +5,7 @@ import 'package:aims/core/models/asset_category.dart';
 import 'package:aims/core/models/asset_name.dart';
 import 'package:aims/core/models/asset_type.dart';
 import 'package:aims/core/models/captured_data.dart';
-import 'package:aims/ui/screens/data_capture/data_capture_view_model.dart';
+// import 'package:aims/ui/screens/data_capture/data_capture_view_model.dart';
 import 'package:aims/ui/screens/data_sceens/edit/edit_view_model.dart';
 import 'package:aims/ui/widgets/custom_button.dart';
 import 'package:aims/ui/widgets/custom_dropdown.dart';

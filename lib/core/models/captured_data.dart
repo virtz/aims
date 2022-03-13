@@ -91,6 +91,8 @@ class CapturedData {
   @HiveField(41)
   @JsonKey(name: "ID")
   final int? id;
+@HiveField(42)
+  bool? isEdited;
 
   CapturedData(
       {this.id,
@@ -134,14 +136,16 @@ class CapturedData {
       this.photo2,
       this.photo3,
       this.photo4,
-      this.mode});
+      this.mode,this.isEdited});
 
   factory CapturedData.fromJson(Map<String, dynamic> json) =>
       _$CapturedDataFromJson(json);
   Map<String, dynamic> toJson() => _$CapturedDataToJson(this);
 
+
+
   @override
   String toString() {
-    return 'CapturedData(product: $product, location: $location, barcode: $barcode, year: $year, dateCaptured: $dateCaptured, lastUpdated: $lastUpdated, updatedBy: $updatedBy, serialNo: $serialNo, condition: $condition, message: $message, siteName: $siteName, siteAddress: $siteAddress, costCenter: $costCenter, latitude: $latitude, longitude: $longitude, mapShape: $mapShape, comment: $comment, status: $status, client: $client, isParent: $isParent, parentBarcode: $parentBarcode, person: $person, brExtra1: $brExtra1, brExtra2: $brExtra2, drop1: $drop1, drop2: $drop2, drop3: $drop3, text1: $text1, text2: $text2, text3: $text3, text4: $text4, text5: $text5, text6: $text6, text7: $text7, text8: $text8, photo1: $photo1, photo2: $photo2, photo3: $photo3, photo4: $photo4, mode: $mode, capturedBy: $capturedBy)';
+    return 'CapturedData(product: $product, location: $location, barcode: $barcode, year: $year, dateCaptured: $dateCaptured, lastUpdated: $lastUpdated, updatedBy: $updatedBy, serialNo: $serialNo, condition: $condition, message: $message, siteName: $siteName, siteAddress: $siteAddress, costCenter: $costCenter, latitude: $latitude, longitude: $longitude, mapShape: $mapShape, comment: $comment, status: $status, client: $client, isParent: $isParent, parentBarcode: $parentBarcode, person: $person, brExtra1: $brExtra1, brExtra2: $brExtra2, drop1: $drop1, drop2: $drop2, drop3: $drop3, text1: $text1, text2: $text2, text3: $text3, text4: $text4, text5: $text5, text6: $text6, text7: $text7, text8: $text8, photo1: $photo1, photo2: $photo2, photo3: $photo3, photo4: $photo4, mode: $mode, capturedBy: $capturedBy, id: $id, isEdited: $isEdited)';
   }
 }

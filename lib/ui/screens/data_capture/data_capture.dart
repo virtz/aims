@@ -105,19 +105,20 @@ class _DataCaptureState extends State<DataCapture> {
           model.drop1SelectedValue = widget.cd!.drop1;
           model.drop2SelectedValue = widget.cd!.drop2;
           model.drop3SelectedValue = widget.cd!.drop3;
+          widget.cd!.isEdited = true;
           // manufacturer.text = model.misc!.manufacturer!;
           // chasisNumber.text = model.misc!.chasisNo!;
           model.lookUpProductWithCode(widget.cd!.product!);
           extraBarcode1.text = widget.cd!.brExtra1!;
           extraBarcode2.text = widget.cd!.brExtra2!;
-          extraTextField1.text = widget.cd!.text1!;
-          extraTextField2.text = widget.cd!.text2!;
-          extraTextField3.text = widget.cd!.text3!;
-          extraTextField4.text = widget.cd!.text4!;
-          extraTextField5.text = widget.cd!.text5!;
-          extraTextField6.text = widget.cd!.text6!;
-          extraTextField7.text = widget.cd!.text7!;
-          extraTextField8.text = widget.cd!.text8!;
+          extraTextField1.text = widget.cd!.text1 ?? "";
+          extraTextField2.text = widget.cd!.text2 ?? "";
+          extraTextField3.text = widget.cd!.text3 ?? "";
+          extraTextField4.text = widget.cd!.text4 ?? "";
+          extraTextField5.text = widget.cd!.text5 ?? "";
+          extraTextField6.text = widget.cd!.text6 ?? "";
+          extraTextField7.text = widget.cd!.text7 ?? "";
+          extraTextField8.text = widget.cd!.text8 ?? "";
         }
       },
       viewModelBuilder: () => DataCaptureViewModel(),
@@ -203,7 +204,9 @@ class _DataCaptureState extends State<DataCapture> {
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: Icon(Icons.person,
                                       size: 40,
-                                      color: Theme.of(context).accentColor),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
                                 ))
                           ],
                         ),
@@ -1146,6 +1149,7 @@ class _DataCaptureState extends State<DataCapture> {
                                   var photo3;
                                   var photo4;
                                   var photo1;
+                                  bool isEdited = false;
                                   //Todo:
                                   //     model.convertImageToBase64(image1.path);
                                   // if (image2.path.isNotEmpty) {
@@ -1162,6 +1166,13 @@ class _DataCaptureState extends State<DataCapture> {
                                   //   photo4 =
                                   //       model.convertImageToBase64(image4.path);
                                   // }
+                                  if (widget.cd != null &&
+                                      widget.cd!.isEdited!) {
+                                    setState(() {
+                                      isEdited = true;
+                                    });
+                                  }
+
                                   var result = model.saveCaptureData(
                                       comment: comment.text,
                                       isParent: isParent,
@@ -1180,6 +1191,7 @@ class _DataCaptureState extends State<DataCapture> {
                                       text6: extraTextField6.text,
                                       text7: extraTextField7.text,
                                       text8: extraTextField8.text,
+                                      isEdited: isEdited,
                                       //TODO:
                                       // photo1: photo1,
                                       // photo2: photo2,

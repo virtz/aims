@@ -44,13 +44,17 @@ class _RejectedDataState extends State<RejectedData> {
                             height: size.height * 0.8,
                             child: ListView.builder(
                               shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
                               itemCount: model.dataList.length,
                               itemBuilder: (context, index) {
                                 CapturedData cd = model.dataList[index];
 
                                 return GestureDetector(
                                   onTap: () {
-                                    // model.navigateToEdit(cd, context);
+                                    setState(() {
+                                      cd.status = null;
+                                    });
+                                    model.navigateToEdit(cd, context);
                                   },
                                   child: Container(
                                       width: size.width,

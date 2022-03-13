@@ -19,6 +19,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'core/models/cost_center_model.dart';
+import 'core/models/site_status.dart';
 import 'core/services/constants.dart';
 
 class BaseModel extends ChangeNotifier {
@@ -46,7 +47,8 @@ class BaseModel extends ChangeNotifier {
     // await Hive.deleteBoxFromDisk(locationBoxName);
     final parameterBox = Hive.box<ParameterSetUp>(parameterBoxName);
     parameterBox.clear();
-
+    final siteIssuesBox = Hive.box<Status>(siteIssuesBoxName);
+    siteIssuesBox.clear();
     // await Hive.deleteBoxFromDisk(parameterBoxName);
 
     final controlBox = Hive.box<Control>(controlBoxName);

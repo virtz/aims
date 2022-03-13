@@ -314,7 +314,10 @@ class StartViewModel extends BaseModel {
   }
 
   getIssues() async {
-    final result = await _assetService.getSiteIssues();
+        var payload = {
+      "client": _authService.currentUser!.client,
+    };
+    final result = await _assetService.getSiteIssues(payload);
     if (result is ErrorModel) {
       showErrorToast(result.error.toString());
     } else {

@@ -114,9 +114,9 @@ class AssetService {
     }
   }
 
-  getSiteIssues() async {
+  getSiteIssues(Map<String, dynamic> payload) async {
     try {
-      final result = await http.get(Paths.GET_SITE_ISSUES);
+      final result = await http.post(Paths.GET_SITE_ISSUES,payload);
       if (result is ErrorModel) {
         return ErrorModel(result.error);
       }

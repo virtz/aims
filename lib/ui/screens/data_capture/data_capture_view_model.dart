@@ -13,9 +13,12 @@ import 'package:aims/core/models/control.dart';
 import 'package:aims/core/models/drop1_data_model.dart';
 import 'package:aims/core/models/drop2_data_model.dart';
 import 'package:aims/core/models/drop3_data_model.dart';
+import 'package:aims/core/models/error_model.dart';
 import 'package:aims/core/models/misc.dart';
 import 'package:aims/core/models/parameter_setup.dart';
 import 'package:aims/core/models/site_status.dart';
+import 'package:aims/core/models/success._model.dart';
+import 'package:aims/core/services/asset_service.dart';
 import 'package:aims/core/services/auth_service.dart';
 // import 'package:aims/core/models/error_model.dart';
 import 'dart:async';
@@ -33,7 +36,7 @@ import 'package:intl/intl.dart';
 
 class DataCaptureViewModel extends BaseModel {
   final AuthService _authService = locator<AuthService>();
-
+  final AssetService _assetService = locator<AssetService>();
   bool firstpage = true;
   bool secondpage = false;
   bool thirdPage = false;
@@ -135,6 +138,30 @@ class DataCaptureViewModel extends BaseModel {
     if (box.isOpen && box.isNotEmpty) {
       capturedData = box.values.toList();
       notifyListeners();
+    }
+  }
+
+  //  var duplicateResult = await findCopy(data.barcode);
+  //     if (duplicateResult != null &&
+  //         duplicateResult is SuccessModel &&
+  //         duplicateResult.data == true) {
+  //       showErrorToast('An entity with this barcode already exists');
+  //       setServerLoading(false);
+  //       continue;
+
+  findCopy(String? barcode) async {
+    var payload = {
+      "client": _authService.currentUser!.client,
+      "barcode": barcode
+    };
+    final result = await _assetService.findDuplocate(payload);
+    if (result is ErrorModel) {
+      // showErrorToast(result.error);
+      return ErrorModel(result.error);
+    }
+    if (result is SuccessModel) {
+      var data = result.data['message'];
+      return SuccessModel(data);
     }
   }
 
@@ -313,8 +340,18 @@ class DataCaptureViewModel extends BaseModel {
   Future<String> scanParentCode() async {
     try {
       final result = await BarcodeScanner.scan();
-
-      return result.rawContent;
+      var duplicate = await findCopy(result.rawContent);
+      if (duplicate != null &&
+          duplicate is SuccessModel &&
+          duplicate.data == true) {
+        var option = iterateForSimilarBarcode(result.rawContent);
+        if (option) {
+          return result.rawContent;
+        }
+      }
+      showErrorToast(
+          'Barcode must exsit before it can be used as parentBarcode');
+      return " ";
     } on PlatformException catch (e) {
       return e.toString();
     }
@@ -384,34 +421,34 @@ class DataCaptureViewModel extends BaseModel {
     return formattedDate;
   }
 
-  bool saveCaptureData({
-    String? barcode,
-    String? serialNo,
-    String? comment,
-    String? isParent,
-    parentBarcode,
-    String? owner,
-    String? barcodeExtra1,
-    String? barcodeExtra2,
-    String? dropDown1,
-    String? dropDown2,
-    String? dropDown3,
-    String? manufacturer,
-    String? chasisNo,
-    String? text1,
-    String? text2,
-    String? text3,
-    String? text4,
-    String? text5,
-    String? text6,
-    String? text7,
-    String? text8,
-    String? photo1,
-    String? photo2,
-    String? photo3,
-    String? photo4,
-    String? mode,
-  }) {
+  bool saveCaptureData(
+      {String? barcode,
+      String? serialNo,
+      String? comment,
+      String? isParent,
+      parentBarcode,
+      String? owner,
+      String? barcodeExtra1,
+      String? barcodeExtra2,
+      String? dropDown1,
+      String? dropDown2,
+      String? dropDown3,
+      String? manufacturer,
+      String? chasisNo,
+      String? text1,
+      String? text2,
+      String? text3,
+      String? text4,
+      String? text5,
+      String? text6,
+      String? text7,
+      String? text8,
+      String? photo1,
+      String? photo2,
+      String? photo3,
+      String? photo4,
+      String? mode,
+      bool? isEdited}) {
     // setB Typusy(true);sh
     if (selectedPrdtSubCat == null) {
       showErrorToast("Asset category cannot be empty");
@@ -481,7 +518,8 @@ class DataCaptureViewModel extends BaseModel {
         photo2: photo2 ?? "",
         photo3: photo3 ?? "",
         photo4: photo4 ?? "",
-        mode: " ");
+        mode: " ",
+        isEdited: isEdited);
     print(cd.toJson());
 
     final box = Hive.box<CapturedData>(captuedDataBoxName);
@@ -526,7 +564,7 @@ class DataCaptureViewModel extends BaseModel {
 
     if (selectedAssetName!.parentCode != null)
       lookUpAssetTypewithParentCode(selectedAssetName!.parentCode!);
-    if (selectedAssetType!.subCat_Code != null)
+    if (selectedAssetType != null && selectedAssetType!.subCat_Code != null)
       lookUpAssetSubCatWithParentCode(selectedAssetType!.subCat_Code!);
     if (selectedPrdtSubCat!.cat_Code != null)
       lookUpAssetcategoryWithParentCode(selectedPrdtSubCat!.cat_Code!);
