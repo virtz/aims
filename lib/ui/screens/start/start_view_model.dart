@@ -83,6 +83,7 @@ class StartViewModel extends BaseModel {
     if (!serviceEnabled) {
       setPositionIsLoading(false);
       showErrorToast('Location service is disabled');
+      return;
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -91,6 +92,7 @@ class StartViewModel extends BaseModel {
       if (permission == LocationPermission.denied) {
         setPositionIsLoading(false);
         showErrorToast('Location permissions are denied');
+        return;
       }
     } else {
       currentPosition = await Geolocator.getCurrentPosition(
@@ -284,7 +286,7 @@ class StartViewModel extends BaseModel {
       "client": _authService.currentUser!.client,
     };
     final result = await _assetService.getAssetName(payload);
-    
+
     if (result is ErrorModel) {
       showErrorToast(result.error.toString());
     } else {
@@ -314,7 +316,7 @@ class StartViewModel extends BaseModel {
   }
 
   getIssues() async {
-        var payload = {
+    var payload = {
       "client": _authService.currentUser!.client,
     };
     final result = await _assetService.getSiteIssues(payload);

@@ -516,6 +516,15 @@ class EditDataViewModel extends BaseModel {
     print(cd.toJson());
 
     final box = Hive.box<CapturedData>(captuedDataBoxName);
+    var dup = box.get(
+      cd.barcode,
+    );
+    if (dup != null) {
+      if (dup.barcode == cd.barcode && dup.product == cd.product) {
+        box.delete(cd.barcode);
+      }
+    }
+
     box.put(cd.barcode, cd);
 
     Misc misc = Misc(selectedAssetName, selectedPrdtCat, selectedPrdtSubCat,

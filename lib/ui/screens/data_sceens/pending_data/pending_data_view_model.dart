@@ -74,13 +74,13 @@ class PendingDataViewModel extends BaseModel {
     }
   }
 
-  updateProduct(CapturedData data) async {
+  Future<bool?> updateProduct(CapturedData data) async {
     final result = await _assetService.submitDataToServer(data.toJson());
 
     if (result is ErrorModel) {
       setServerLoading(false);
       showErrorToast(result.error.toString());
-      return;
+      return false;
     } else if (result is SuccessModel) {
       setServerLoading(false);
       showToast('Data upload successful');
@@ -89,10 +89,11 @@ class PendingDataViewModel extends BaseModel {
       List<CapturedData> data1 = box.values.toList();
       dataList = data1;
       notifyListeners();
-      return;
+      return false;
     }
     // print(dataList.length);
     // showToast(payload.toString())
+    return null;
   }
   //? add bool iseEditted to captureddata
   //? make bool true when data is passed from reject to data capture
@@ -134,14 +135,14 @@ class PendingDataViewModel extends BaseModel {
   //   }
   // }
 
-  sendDataToServer(data) async {
+  Future<bool?> sendDataToServer(data) async {
     var duplicateResult = await findCopy(data.barcode);
     if (duplicateResult != null &&
         duplicateResult is SuccessModel &&
         duplicateResult.data == true) {
       showErrorToast('An entity with this barcode already exists');
       setServerLoading(false);
-      return;
+      return false;
     }
 
     final result = await _assetService.submitDataToServer(data.toJson());
@@ -149,7 +150,7 @@ class PendingDataViewModel extends BaseModel {
     if (result is ErrorModel) {
       setServerLoading(false);
       showErrorToast(result.error.toString());
-      return;
+      return false;
     } else if (result is SuccessModel) {
       setServerLoading(false);
       showToast('Data upload successful');
@@ -158,22 +159,41 @@ class PendingDataViewModel extends BaseModel {
       List<CapturedData> data1 = box.values.toList();
       dataList = data1;
       notifyListeners();
-      return;
+      return true;
     }
+    return null;
   }
 
-  sortAndSend() {
+  Future<bool?> deleteExistingAndSend(data) async {
+    var payload = {
+      'client': _authService.currentUser?.client,
+      'barcode': data.barcode
+    };
+    final result = await _assetService.deleteExistRecord(payload);
+    if (result is ErrorModel) {
+      showErrorToast(result.error);
+      return false;
+    }
+    // await updateProduct(data);
+    return (await updateProduct(data));
+  }
+
+  sortAndSend() async {
     for (var data in dataList) {
       print(data.toJson());
       data.status = "Submitted";
       log(data.toJson().toString());
       setServerLoading(true);
       if (data.isEdited != null && data.isEdited!) {
-        updateProduct(data);
-        return;
+        bool? submitted1 = await deleteExistingAndSend(data);
+        if (submitted1 != null && submitted1 == false) {
+          continue;
+        }
       }
-      sendDataToServer(data);
-      return;
+      bool? submitted = await sendDataToServer(data);
+      if (submitted != null && submitted == false) {
+        continue;
+      }
     }
   }
 
@@ -315,6 +335,11 @@ class PendingDataViewModel extends BaseModel {
 
   navigateToEdit(CapturedData data, context) {
     AutoRouter.of(context).push(Edit(data: data));
+    // log(data.toString());
+    // // AutoRouter.of(context).push(Edit(data: data));
+    // data.isEdited = true;
+    // notifyListeners();
+    // AutoRouter.of(context).push(DataCapture(cd: data, isFromAudit: true));
   }
 
   findCopy(String? barcode) async {

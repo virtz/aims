@@ -1260,7 +1260,8 @@ class _DataCaptureState extends State<DataCapture> {
               Expanded(
                   child: TextButton(
                       onPressed: () {
-                        if (formKey2.currentState!.validate()) {
+                        if (formKey1.currentState!.validate() &&
+                            formKey2.currentState!.validate()) {
                           model.setFirstPage(false);
                           model.setSecondPage(false);
                           model.setThirdPage(true);

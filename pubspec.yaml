@@ -40,7 +40,7 @@ dependencies:
   path_provider:
   geolocator: ^8.0.3
   geocoding:
-  barcode_scan2:
+  barcode_scan2: ^4.2.0
   image_picker:
   intl:
   permission_handler:

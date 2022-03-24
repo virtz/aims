@@ -116,7 +116,7 @@ class AssetService {
 
   getSiteIssues(Map<String, dynamic> payload) async {
     try {
-      final result = await http.post(Paths.GET_SITE_ISSUES,payload);
+      final result = await http.post(Paths.GET_SITE_ISSUES, payload);
       if (result is ErrorModel) {
         return ErrorModel(result.error);
       }
@@ -144,6 +144,18 @@ class AssetService {
       return SuccessModel(result.data);
     } catch (e) {
       return ErrorModel(e);
+    }
+  }
+
+  deleteExistRecord(Map<String, dynamic> payload) async {
+    try {
+      final result = await http.post(Paths.DELETE_EXISTING, payload);
+      if (result is ErrorModel) {
+        return ErrorModel(result.error);
+      }
+      return SuccessModel(result.data);
+    } catch (e) {
+      return ErrorModel(e.toString());
     }
   }
 
