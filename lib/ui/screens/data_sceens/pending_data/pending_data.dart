@@ -43,7 +43,7 @@ class _PendingDataState extends State<PendingData> {
           body: model.dataList.isEmpty
               ? Center(child: Text('No data'))
               : SingleChildScrollView(
-                child: Padding(
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15.0, vertical: 10),
                     child: Column(
@@ -75,11 +75,14 @@ class _PendingDataState extends State<PendingData> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: Text(
-                                              "Name : ${model.misc!.productName!.caption ?? ''}",
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  fontWeight: FontWeight.w700)),
+                                          child: model.misc == null
+                                              ? Text('N/A')
+                                              : Text(
+                                                  "Name : ${model.misc!.productName!.caption ?? ''}",
+                                                  style: TextStyle(
+                                                      fontSize: 15.0,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
                                         ),
                                         Expanded(
                                           child: Text(
@@ -104,7 +107,7 @@ class _PendingDataState extends State<PendingData> {
                       ],
                     ),
                   ),
-              ),
+                ),
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

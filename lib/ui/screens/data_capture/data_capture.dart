@@ -1189,7 +1189,8 @@ class _DataCaptureState extends State<DataCapture> {
                                   //       model.convertImageToBase64(image4.path);
                                   // }
                                   if (widget.cd != null &&
-                                      widget.cd!.isEdited!) {
+                                          widget.cd!.isEdited! ||
+                                      widget.isFromAudit) {
                                     setState(() {
                                       isEdited = true;
                                     });

@@ -100,42 +100,81 @@ class _DataAuditState extends State<DataAudit> {
                   serialNumber.text = await model.scanParentCode();
 
                   await model.dataAudit(serialNumber.text);
-                  !model.productExists
-                      ? model.showDialogue(
+                  if (model.productExists) {
+                    if (model.locationMatches) {
+                      model.showDialogue(
                           context,
-                          _alertDialog(
-                              Text("Product Not Found"),
-                              Text(
-                                  'Product with entered barcode not found, Would you like to capture product?'),
-                              () {
-                            AutoRouter.of(context).push(DataCapture());
+                          _alertDialog(Text("Product Found"),
+                              Text('Product with entered barcode  found'), () {
                             AutoRouter.of(context).pop();
                           }, () {
                             AutoRouter.of(context).pop();
-                          }))
-                      : model.productExists && !model.locationMatches
-                          ? model.showDialogue(
-                              context,
-                              _alertDialog(
-                                  Text("Product Found"),
-                                  Text(
-                                      'Product with entered barcode  found but with a  different location, would you like to update the product?'),
-                                  () {
-                                AutoRouter.of(context).push(DataCapture(
-                                    cd: model.cd, isFromAudit: true));
-                                AutoRouter.of(context).pop();
-                              }, () {
-                                AutoRouter.of(context).pop();
-                              }))
-                          : model.showDialogue(
-                              context,
-                              _alertDialog(Text("Product Found"),
-                                  Text('Product with entered barcode  found'),
-                                  () {
-                                AutoRouter.of(context).pop();
-                              }, () {
-                                AutoRouter.of(context).pop();
-                              }));
+                          }));
+                    } else {
+                      model.showDialogue(
+                          context,
+                          _alertDialog(
+                              Text("Product Found"),
+                              Text(
+                                  'Product with entered barcode  found but with a  different location, would you like to update the product?'),
+                              () {
+                            AutoRouter.of(context).push(
+                                DataCapture(cd: model.cd, isFromAudit: true));
+                            AutoRouter.of(context).pop();
+                          }, () {
+                            AutoRouter.of(context).pop();
+                          }));
+                    }
+                  } else {
+                    model.showDialogue(
+                        context,
+                        _alertDialog(
+                            Text("Product Not Found"),
+                            Text(
+                                'Product with entered barcode not found, Would you like to capture product?'),
+                            () {
+                          AutoRouter.of(context).push(DataCapture());
+                          AutoRouter.of(context).pop();
+                        }, () {
+                          AutoRouter.of(context).pop();
+                        }));
+                  }
+                  // !model.productExists
+                  //     ? model.showDialogue(
+                  //         context,
+                  //         _alertDialog(
+                  //             Text("Product Not Found"),
+                  //             Text(
+                  //                 'Product with entered barcode not found, Would you like to capture product?'),
+                  //             () {
+                  //           AutoRouter.of(context).push(DataCapture());
+                  //           AutoRouter.of(context).pop();
+                  //         }, () {
+                  //           AutoRouter.of(context).pop();
+                  //         }))
+                  //     : model.productExists && !model.locationMatches
+                  //         ? model.showDialogue(
+                  //             context,
+                  //             _alertDialog(
+                  //                 Text("Product Found"),
+                  //                 Text(
+                  //                     'Product with entered barcode  found but with a  different location, would you like to update the product?'),
+                  //                 () {
+                  //               AutoRouter.of(context).push(DataCapture(
+                  //                   cd: model.cd, isFromAudit: true));
+                  //               AutoRouter.of(context).pop();
+                  //             }, () {
+                  //               AutoRouter.of(context).pop();
+                  //             }))
+                  //         : model.showDialogue(
+                  //             context,
+                  //             _alertDialog(Text("Product Found"),
+                  //                 Text('Product with entered barcode  found'),
+                  //                 () {
+                  //               AutoRouter.of(context).pop();
+                  //             }, () {
+                  //               AutoRouter.of(context).pop();
+                  //             }));
                 }),
               ],
             ),
