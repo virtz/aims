@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_statements
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -423,9 +425,11 @@ class DataCaptureViewModel extends BaseModel {
 
   bool saveCaptureData(
       {String? barcode,
+      String? productCode,
       String? serialNo,
       String? comment,
       String? isParent,
+      bool isFromAudit = false,
       parentBarcode,
       String? owner,
       String? barcodeExtra1,
@@ -449,36 +453,44 @@ class DataCaptureViewModel extends BaseModel {
       String? photo4,
       String? mode,
       bool? isEdited}) {
-    // setB Typusy(true);sh
-    if (selectedPrdtSubCat == null) {
-      showErrorToast("Asset category cannot be empty");
-      return false;
+    var slt;
+    if (isFromAudit) {
+      selectedStatus = 'Submitted';
     }
-    if (selectedAssetType == null) {
-      showErrorToast("Asset type cannot be empty");
-      return false;
+    // setB Typusy(true);sh
+    if (!isFromAudit) {
+      if (selectedPrdtSubCat == null) {
+        showErrorToast("Asset category cannot be empty");
+        return false;
+      }
+      if (selectedAssetType == null) {
+        showErrorToast("Asset type cannot be empty");
+        return false;
+      }
+
+      if (selectedAssetName == null) {
+        showErrorToast('Asset name cannot be empty');
+        return false;
+      }
+      if (selectedContiion == null) {
+        showErrorToast("Please select condition");
+        return false;
+      }
+
+      if (selectedStatus == null) {
+        showErrorToast("Please select status");
+        return false;
+      }
+      slt = assetNameList.firstWhere(
+          (element) => element.caption == selectedAssetName!.caption);
     }
 
-    if (selectedAssetName == null) {
-      showErrorToast('Asset name cannot be empty');
-      return false;
-    }
-    if (selectedContiion == null) {
-      showErrorToast("Please select condition");
-      return false;
-    }
-    if (selectedStatus == null) {
-      showErrorToast("Please select status");
-      return false;
-    }
-    var slt = assetNameList
-        .firstWhere((element) => element.caption == selectedAssetName!.caption);
     // DateTime dateToday = DateTime(DateTime.now().year);
     var dateCaptured = formateDate(DateTime.now());
     var lastUpdated = formateDate(DateTime.now());
 
     CapturedData cd = CapturedData(
-        product: slt.p_Code,
+        product: isFromAudit ? productCode : slt.p_Code,
         location: _authService.currentUser!.address,
         barcode: barcode,
         year: "2018",
@@ -525,10 +537,12 @@ class DataCaptureViewModel extends BaseModel {
     final box = Hive.box<CapturedData>(captuedDataBoxName);
     box.put(cd.barcode, cd);
 
-    Misc misc = Misc(selectedAssetName, selectedPrdtCat, selectedPrdtSubCat,
-        manufacturer, chasisNo, selectedAssetType!, cd.product);
-    final box2 = Hive.box<Misc>(miscBoxName);
-    box2.put(misc.productCode, misc);
+    if (!isFromAudit) {
+      Misc misc = Misc(selectedAssetName, selectedPrdtCat, selectedPrdtSubCat,
+          manufacturer, chasisNo, selectedAssetType!, cd.product);
+      final box2 = Hive.box<Misc>(miscBoxName);
+      box2.put(misc.productCode, misc);
+    }
 
     // setBusy(false);
     showToast('Data saved');
@@ -561,12 +575,16 @@ class DataCaptureViewModel extends BaseModel {
         orElse: () => AssetName());
     notifyListeners();
     print(selectedAssetName);
+    // if (selectedAssetName == AssetName) {
+    //   selectedAssetName == null;
+    //   notifyListeners();
+    // }
 
     if (selectedAssetName!.parentCode != null)
       lookUpAssetTypewithParentCode(selectedAssetName!.parentCode!);
     if (selectedAssetType != null && selectedAssetType!.subCat_Code != null)
       lookUpAssetSubCatWithParentCode(selectedAssetType!.subCat_Code!);
-    if (selectedPrdtSubCat!.cat_Code != null)
+    if (selectedPrdtSubCat != null && selectedPrdtSubCat!.cat_Code != null)
       lookUpAssetcategoryWithParentCode(selectedPrdtSubCat!.cat_Code!);
   }
 

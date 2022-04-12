@@ -108,6 +108,15 @@ class _DataCaptureState extends State<DataCapture> {
           widget.cd!.isEdited = true;
           // manufacturer.text = model.misc!.manufacturer!;
           // chasisNumber.text = model.misc!.chasisNo!;
+          if (model.categoryList.contains(model.selectedPrdtCat)) {
+            // model.selectedPrdtCat = model.misc!.selectedCategory!;
+          }
+          // if (model.subCategoryList.contains(model.misc!.selectedSubCategory!)) {
+          //   model.selectedPrdtSubCat = model.misc!.selectedSubCategory!;
+          // }
+          // if (model.assetTypeList.contains(model.misc!.assetType!)) {
+          //   model.selectedAssetType = model.misc!.assetType!;
+          // }
           model.lookUpProductWithCode(widget.cd!.product!);
           extraBarcode1.text = widget.cd!.brExtra1!;
           extraBarcode2.text = widget.cd!.brExtra2!;
@@ -358,36 +367,49 @@ class _DataCaptureState extends State<DataCapture> {
                         SizedBox(
                           height: size.height * 0.04,
                         ),
-                        CustomDropdown(
-                          label: model.parameterList[0].assetLevel1Name,
-                          child: new DropdownButton<AssetName>(
-                            isExpanded: true,
-                            value: model.selectedAssetName,
+                        widget.isFromAudit
+                            ? Column(
+                                children: [
+                                  CustomTextFieldWidget(
+                                    label:
+                                        model.parameterList[0].assetLevel1Name,
+                                    initialValue: widget.cd!.product,
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.04,
+                                  ),
+                                ],
+                              )
+                            : CustomDropdown(
+                                label: model.parameterList[0].assetLevel1Name,
+                                child: new DropdownButton<AssetName>(
+                                  isExpanded: true,
+                                  value: model.selectedAssetName,
 
-                            hint: Text(
-                                'Select ${model.parameterList[0].assetLevel1Name}'),
-                            iconSize: 15,
-                            icon: Icon(Icons.keyboard_arrow_down_sharp),
-                            // itemHeight: 300,
-                            elevation: 0,
-                            style: TextStyle(color: Colors.black),
-                            dropdownColor: Colors.white,
-                            items: model.assetNameList.map((value) {
-                              return new DropdownMenuItem<AssetName>(
-                                value: value,
-                                child: new Text(
-                                  value.caption ?? "",
+                                  hint: Text(
+                                      'Select ${model.parameterList[0].assetLevel1Name}'),
+                                  iconSize: 15,
+                                  icon: Icon(Icons.keyboard_arrow_down_sharp),
+                                  // itemHeight: 300,
+                                  elevation: 0,
                                   style: TextStyle(color: Colors.black),
+                                  dropdownColor: Colors.white,
+                                  items: model.assetNameList.map((value) {
+                                    return new DropdownMenuItem<AssetName>(
+                                      value: value,
+                                      child: new Text(
+                                        value.caption ?? "",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      model.selectedAssetName = newValue;
+                                    });
+                                  },
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (newValue) {
-                              setState(() {
-                                model.selectedAssetName = newValue;
-                              });
-                            },
-                          ),
-                        ),
+                              ),
                         // SizedBox(
                         //   height: size.height * 0.04,
                         // ),
@@ -1172,9 +1194,13 @@ class _DataCaptureState extends State<DataCapture> {
                                       isEdited = true;
                                     });
                                   }
-
+                                  var product = widget.cd == null
+                                      ? ""
+                                      : widget.cd!.product;
                                   var result = model.saveCaptureData(
+                                      productCode: product,
                                       comment: comment.text,
+                                      isFromAudit: widget.isFromAudit,
                                       isParent: isParent,
                                       manufacturer: manufacturer.text,
                                       chasisNo: chasisNumber.text,

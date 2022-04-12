@@ -7,7 +7,7 @@ import 'package:aims/core/models/success._model.dart';
 import 'package:aims/core/services/asset_service.dart';
 import 'package:aims/core/services/auth_service.dart';
 import 'package:aims/locator.dart';
-import 'package:aims/utils/utils.dart';
+// import 'package:aims/utils/utils.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
