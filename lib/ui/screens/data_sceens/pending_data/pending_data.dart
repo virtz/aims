@@ -59,7 +59,13 @@ class _PendingDataState extends State<PendingData> {
                           itemCount: model.dataList.length,
                           itemBuilder: (context, index) {
                             CapturedData cd = model.dataList[index];
-                            model.getMiscData(cd.product!);
+                            model.getCapturedData();
+                            // cd.isFromAudit
+                            //     ?
+                            //     ;
+                            if (cd.isFromAudit != null && !cd.isFromAudit!) {
+                              model.getMiscData(cd.product!);
+                            }
                             return GestureDetector(
                               onTap: () {
                                 model.navigateToEdit(cd, context);

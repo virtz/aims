@@ -103,7 +103,7 @@ class BaseModel extends ChangeNotifier {
         logout(context);
         break;
       case 2:
-        AutoRouter.of(context).push(const PendingData());
+        AutoRouter.of(context).push(PendingData());
         break;
       case 3:
         AutoRouter.of(context).push(const SubmittedData());

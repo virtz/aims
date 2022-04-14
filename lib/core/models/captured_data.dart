@@ -91,8 +91,10 @@ class CapturedData {
   @HiveField(41)
   @JsonKey(name: "ID")
   final int? id;
-@HiveField(42)
+  @HiveField(42)
   bool? isEdited;
+  @HiveField(43)
+  bool? isFromAudit;
 
   CapturedData(
       {this.id,
@@ -100,6 +102,7 @@ class CapturedData {
       this.capturedBy,
       this.location,
       this.barcode,
+      this.isFromAudit = false,
       this.year,
       this.dateCaptured,
       this.lastUpdated,
@@ -136,13 +139,12 @@ class CapturedData {
       this.photo2,
       this.photo3,
       this.photo4,
-      this.mode,this.isEdited});
+      this.mode,
+      this.isEdited});
 
   factory CapturedData.fromJson(Map<String, dynamic> json) =>
       _$CapturedDataFromJson(json);
   Map<String, dynamic> toJson() => _$CapturedDataToJson(this);
-
-
 
   @override
   String toString() {

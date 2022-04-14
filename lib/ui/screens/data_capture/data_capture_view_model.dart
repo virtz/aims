@@ -417,7 +417,7 @@ class DataCaptureViewModel extends BaseModel {
 
   formateDate(DateTime dateTime) {
     // DateTime now = DateTime.now();
-    DateFormat formatter = DateFormat('yyyy-MM-dd – kk:mm:a');
+    DateFormat formatter = DateFormat('yyyy-MM-dd kk:mm:ss');
     String formattedDate = formatter.format(dateTime);
     print(formattedDate);
     return formattedDate;
@@ -425,6 +425,7 @@ class DataCaptureViewModel extends BaseModel {
 
   bool saveCaptureData(
       {String? barcode,
+      String? dateCapturedd,
       String? productCode,
       String? serialNo,
       String? comment,
@@ -454,6 +455,7 @@ class DataCaptureViewModel extends BaseModel {
       String? mode,
       bool? isEdited}) {
     var slt;
+    var dateCaptured;
     if (isFromAudit) {
       selectedStatus = 'Submitted';
     }
@@ -486,7 +488,10 @@ class DataCaptureViewModel extends BaseModel {
     }
 
     // DateTime dateToday = DateTime(DateTime.now().year);
-    var dateCaptured = formateDate(DateTime.now());
+
+    dateCaptured = formateDate(DateTime.now());
+
+    // dateCaptured = dateCapturedd;
     var lastUpdated = formateDate(DateTime.now());
 
     CapturedData cd = CapturedData(
@@ -494,7 +499,7 @@ class DataCaptureViewModel extends BaseModel {
         location: _authService.currentUser!.address,
         barcode: barcode,
         year: "2018",
-        dateCaptured: dateCaptured,
+        dateCaptured: isFromAudit ? dateCapturedd : dateCaptured,
         lastUpdated: lastUpdated,
         updatedBy: _authService.currentUser!.name,
         serialNo: serialNo,
@@ -530,7 +535,8 @@ class DataCaptureViewModel extends BaseModel {
         photo2: photo2 ?? "",
         photo3: photo3 ?? "",
         photo4: photo4 ?? "",
-        mode: " ",
+        mode: isFromAudit?'Audit':"New Capture",
+        isFromAudit: isFromAudit,
         isEdited: isEdited);
     print(cd.toJson());
 

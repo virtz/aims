@@ -22,6 +22,7 @@ class CapturedDataAdapter extends TypeAdapter<CapturedData> {
       capturedBy: fields[40] as String?,
       location: fields[1] as String?,
       barcode: fields[2] as String?,
+      isFromAudit: fields[43] as bool?,
       year: fields[3] as String?,
       dateCaptured: fields[4] as String?,
       lastUpdated: fields[5] as String?,
@@ -59,13 +60,14 @@ class CapturedDataAdapter extends TypeAdapter<CapturedData> {
       photo3: fields[37] as String?,
       photo4: fields[38] as String?,
       mode: fields[39] as String?,
+      isEdited: fields[42] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CapturedData obj) {
     writer
-      ..writeByte(42)
+      ..writeByte(44)
       ..writeByte(0)
       ..write(obj.product)
       ..writeByte(1)
@@ -149,7 +151,11 @@ class CapturedDataAdapter extends TypeAdapter<CapturedData> {
       ..writeByte(40)
       ..write(obj.capturedBy)
       ..writeByte(41)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(42)
+      ..write(obj.isEdited)
+      ..writeByte(43)
+      ..write(obj.isFromAudit);
   }
 
   @override
@@ -173,6 +179,7 @@ CapturedData _$CapturedDataFromJson(Map<String, dynamic> json) => CapturedData(
       capturedBy: json['CapturedBy'] as String?,
       location: json['Location'] as String?,
       barcode: json['Barcode'] as String?,
+      isFromAudit: json['IsFromAudit'] as bool? ?? false,
       year: json['Year'] as String?,
       dateCaptured: json['DateCaptured'] as String?,
       lastUpdated: json['LastUpdated'] as String?,
@@ -210,6 +217,7 @@ CapturedData _$CapturedDataFromJson(Map<String, dynamic> json) => CapturedData(
       photo3: json['Photo3'] as String?,
       photo4: json['Photo4'] as String?,
       mode: json['Mode'] as String?,
+      isEdited: json['IsEdited'] as bool?,
     );
 
 Map<String, dynamic> _$CapturedDataToJson(CapturedData instance) =>
@@ -256,4 +264,6 @@ Map<String, dynamic> _$CapturedDataToJson(CapturedData instance) =>
       'Mode': instance.mode,
       'CapturedBy': instance.capturedBy,
       'ID': instance.id,
+      'IsEdited': instance.isEdited,
+      'IsFromAudit': instance.isFromAudit,
     };

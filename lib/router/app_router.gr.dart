@@ -58,8 +58,11 @@ class AppRouter extends _i11.RootStackRouter {
           routeData: routeData, child: const _i6.DataAudit());
     },
     PendingData.name: (routeData) {
+      final args = routeData.argsAs<PendingDataArgs>(
+          orElse: () => const PendingDataArgs());
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.PendingData());
+          routeData: routeData,
+          child: _i7.PendingData(key: args.key, isEditied: args.isEditied));
     },
     RejectedData.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
@@ -160,10 +163,26 @@ class DataAudit extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.PendingData]
-class PendingData extends _i11.PageRouteInfo<void> {
-  const PendingData() : super(PendingData.name, path: '/pending-data');
+class PendingData extends _i11.PageRouteInfo<PendingDataArgs> {
+  PendingData({_i12.Key? key, bool isEditied = false})
+      : super(PendingData.name,
+            path: '/pending-data',
+            args: PendingDataArgs(key: key, isEditied: isEditied));
 
   static const String name = 'PendingData';
+}
+
+class PendingDataArgs {
+  const PendingDataArgs({this.key, this.isEditied = false});
+
+  final _i12.Key? key;
+
+  final bool isEditied;
+
+  @override
+  String toString() {
+    return 'PendingDataArgs{key: $key, isEditied: $isEditied}';
+  }
 }
 
 /// generated route for

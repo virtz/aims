@@ -1198,9 +1198,13 @@ class _DataCaptureState extends State<DataCapture> {
                                   var product = widget.cd == null
                                       ? ""
                                       : widget.cd!.product;
+                                  var dateCapturedd = widget.cd == null
+                                      ? ""
+                                      : widget.cd!.dateCaptured!;
                                   var result = model.saveCaptureData(
                                       productCode: product,
                                       comment: comment.text,
+                                      dateCapturedd: dateCapturedd,
                                       isFromAudit: widget.isFromAudit,
                                       isParent: isParent,
                                       manufacturer: manufacturer.text,
