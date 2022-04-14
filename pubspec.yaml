@@ -46,6 +46,7 @@ dependencies:
   permission_handler:
   csv:
   json_serializable: ^6.1.3
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:

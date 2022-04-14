@@ -14,6 +14,8 @@ import 'package:aims/router/app_router.gr.dart';
 import 'package:aims/utils/utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
+// import 'package:uuid/uuid_util.dart';
 // import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -29,6 +31,7 @@ class PendingDataViewModel extends BaseModel {
   bool serverLoading = false;
   bool isSearching = false;
   int? dataCount;
+  var uuid = Uuid();
 
   late List<List<dynamic>> capturedData;
 
@@ -54,7 +57,7 @@ class PendingDataViewModel extends BaseModel {
     final box = Hive.box<CapturedData>(captuedDataBoxName);
     List<CapturedData> data = box.values.toList();
     dataList = data;
-    notifyListeners();
+    // notifyListeners();
     if (dataList.isEmpty) {
       showErrorToast('No captured data');
     }
@@ -299,8 +302,10 @@ class PendingDataViewModel extends BaseModel {
 
   saveToCSV() async {
     setIsLoading(true);
+    var counnt = 1;
     sortCSV();
     if (await Permission.storage.request().isGranted) {
+      counnt++;
       // String dir =
       //     (await getExternalStorageDirectory())!.path + "data_capture.csv";
       // String file = "$dir";
@@ -312,12 +317,14 @@ class PendingDataViewModel extends BaseModel {
       // showToast(f.path);
       // showToast('file saved to ${f.path}');
 
+      var v1 = uuid.v1();
       String folderName = "Aims Csv Files";
       var path = "storage/emulated/0/$folderName";
 
       Directory dir = await new Directory(path).create();
 
-      String file = dir.path + "/AimsAssets.csv";
+      String file = dir.path + "/AimsAssets-$v1.csv";
+      print(file);
 
       File f = new File(file);
 

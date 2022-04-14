@@ -59,7 +59,7 @@ class _PendingDataState extends State<PendingData> {
                           itemCount: model.dataList.length,
                           itemBuilder: (context, index) {
                             CapturedData cd = model.dataList[index];
-                            model.getCapturedData();
+                            // model.getCapturedData();
                             // cd.isFromAudit
                             //     ?
                             //     ;
