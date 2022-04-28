@@ -94,6 +94,7 @@ class _DataCaptureState extends State<DataCapture> {
           model.getSubCategory1();
           model.getAssetType1();
           model.getAssetName1();
+          model.getProductName(widget.cd!.product!);
           childBarcode.text = widget.cd!.barcode!;
           serialNumber.text = widget.cd!.serialNo!;
           model.selectedContiion = widget.cd!.condition!;
@@ -373,7 +374,8 @@ class _DataCaptureState extends State<DataCapture> {
                                   CustomTextFieldWidget(
                                     label:
                                         model.parameterList[0].assetLevel1Name,
-                                    initialValue: widget.cd!.product,
+                                    initialValue: model.product.caption ??
+                                        widget.cd!.product,
                                   ),
                                   SizedBox(
                                     height: size.height * 0.04,

@@ -39,6 +39,7 @@ import 'package:intl/intl.dart';
 class DataCaptureViewModel extends BaseModel {
   final AuthService _authService = locator<AuthService>();
   final AssetService _assetService = locator<AssetService>();
+  AssetName product = AssetName();
   bool firstpage = true;
   bool secondpage = false;
   bool thirdPage = false;
@@ -535,7 +536,7 @@ class DataCaptureViewModel extends BaseModel {
         photo2: photo2 ?? "",
         photo3: photo3 ?? "",
         photo4: photo4 ?? "",
-        mode: isFromAudit?'Audit':"New Capture",
+        mode: isFromAudit ? 'Audit' : "New Capture",
         isFromAudit: isFromAudit,
         isEdited: isEdited);
     print(cd.toJson());
@@ -656,6 +657,19 @@ class DataCaptureViewModel extends BaseModel {
     final box = Hive.box<AssetCategory>(assetCategoryBoxName);
     if (box.isOpen && box.isNotEmpty) {
       categoryList = box.values.toList();
+      notifyListeners();
+    }
+  }
+
+  getProductName(String code) async {
+    var payload = {"client": _authService.currentUser!.client, "code": code};
+    final result = await _assetService.getProductNameForAudit(payload);
+    if (result is ErrorModel) {
+      showErrorToast(result.error);
+    }
+    if (result is SuccessModel) {
+      var data = result.data;
+      product = data;
       notifyListeners();
     }
   }

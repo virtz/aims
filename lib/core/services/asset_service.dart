@@ -271,4 +271,20 @@ class AssetService {
       return ErrorModel(e);
     }
   }
+
+  getProductNameForAudit(Map<String, dynamic> payload) async {
+    try {
+      final result = await http.post(Paths.DATA_AUDIT + "/find", payload);
+      if (result is ErrorModel) {
+        return ErrorModel(result.error);
+      }
+      if (result is SuccessModel) {
+        var data = result.data;
+        AssetName assname = AssetName.fromJson(data);
+        return SuccessModel(assname);
+      }
+    } catch (e) {
+      return ErrorModel(e);
+    }
+  }
 }
