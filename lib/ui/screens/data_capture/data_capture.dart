@@ -374,8 +374,9 @@ class _DataCaptureState extends State<DataCapture> {
                                   CustomTextFieldWidget(
                                     label:
                                         model.parameterList[0].assetLevel1Name,
-                                    initialValue: model.product.caption ??
-                                        widget.cd!.product,
+                                    initialValue: model.selectedAssetName!.caption,
+                                    // model.product.caption ??""
+                                    
                                   ),
                                   SizedBox(
                                     height: size.height * 0.04,

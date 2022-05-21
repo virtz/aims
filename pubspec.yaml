@@ -38,9 +38,9 @@ dependencies:
   hive:
   hive_flutter:
   path_provider:
-  geolocator: ^8.0.3
+  geolocator: ^8.2.1
   geocoding:
-  barcode_scan2: ^4.2.0
+  barcode_scan2: ^4.2.1
   image_picker:
   intl:
   permission_handler:
