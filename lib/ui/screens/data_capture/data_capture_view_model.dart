@@ -665,11 +665,12 @@ class DataCaptureViewModel extends BaseModel {
     var payload = {"client": _authService.currentUser!.client, "code": code};
     final result = await _assetService.getProductNameForAudit(payload);
     if (result is ErrorModel) {
-      showErrorToast(result.error);
+      showErrorToast(result.error.toString());
     }
     if (result is SuccessModel) {
       var data = result.data;
       product = data;
+      log("from view model $product");
       notifyListeners();
     }
   }

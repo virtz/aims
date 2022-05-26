@@ -82,7 +82,7 @@ class _DataAuditState extends State<DataAudit> {
               children: [
                 CustomTextFieldWidget(
                     //todo; SOLVE AUDIT ISSUE
-                    readOnly: true,
+                    readOnly: false,
                     label: 'Scan Barcode',
                     controller: serialNumber,
                     onChanged: (val) {

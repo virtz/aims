@@ -280,8 +280,10 @@ class AssetService {
       }
       if (result is SuccessModel) {
         var data = result.data;
-        AssetName assname = AssetName.fromJson(data);
-        return SuccessModel(assname);
+        // AssetName assname = AssetName.fromJson(data);
+        List<AssetName> assetname =
+            List.from(data.map((e) => AssetName.fromJson(e)));
+        return SuccessModel(assetname[0]);
       }
     } catch (e) {
       return ErrorModel(e);

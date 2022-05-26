@@ -65,6 +65,8 @@ class _DataCaptureState extends State<DataCapture> {
   TextEditingController extraTextField6 = TextEditingController();
   TextEditingController extraTextField7 = TextEditingController();
   TextEditingController extraTextField8 = TextEditingController();
+
+  TextEditingController auditProductNameDisplay = TextEditingController();
   late File image1;
   File image2 = File('');
   File image3 = File('');
@@ -74,7 +76,7 @@ class _DataCaptureState extends State<DataCapture> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return ViewModelBuilder<DataCaptureViewModel>.reactive(
-      onModelReady: (model) {
+      onModelReady: (model) async {
         model.getControl();
         model.getParameterSetup();
         model.hideFields();
@@ -94,12 +96,14 @@ class _DataCaptureState extends State<DataCapture> {
           model.getSubCategory1();
           model.getAssetType1();
           model.getAssetName1();
-          model.getProductName(widget.cd!.product!);
+          await model.getProductName(widget.cd!.product!);
           childBarcode.text = widget.cd!.barcode!;
           serialNumber.text = widget.cd!.serialNo!;
           model.selectedContiion = widget.cd!.condition!;
           comment.text = widget.cd!.comment!;
           // model.selectedStatus = widget.cd!.status!;
+          auditProductNameDisplay.text =
+              model.product.caption ?? model.selectedAssetName!.caption!;
           isParent = widget.cd!.isParent!;
           parentBarcode.text = widget.cd!.parentBarcode!;
           assetOwner.text = widget.cd!.person!;
@@ -119,6 +123,10 @@ class _DataCaptureState extends State<DataCapture> {
           //   model.selectedAssetType = model.misc!.assetType!;
           // }
           model.lookUpProductWithCode(widget.cd!.product!);
+
+          //!so the fall back value is fetched too before i assign it to thw textediting controller'
+              auditProductNameDisplay.text =
+              model.product.caption ?? model.selectedAssetName!.caption!;
           extraBarcode1.text = widget.cd!.brExtra1!;
           extraBarcode2.text = widget.cd!.brExtra2!;
           extraTextField1.text = widget.cd!.text1 ?? "";
@@ -371,12 +379,15 @@ class _DataCaptureState extends State<DataCapture> {
                         widget.isFromAudit
                             ? Column(
                                 children: [
+                                  // fofksnfs
                                   CustomTextFieldWidget(
+                                    controller: auditProductNameDisplay,
                                     label:
                                         model.parameterList[0].assetLevel1Name,
-                                    initialValue: model.selectedAssetName!.caption,
+                                    // initialValue: model.product.caption ?? ""
+                                    // model.selectedAssetName!.caption,
+                                    // model.selectedAssetName!.caption,
                                     // model.product.caption ??""
-                                    
                                   ),
                                   SizedBox(
                                     height: size.height * 0.04,
