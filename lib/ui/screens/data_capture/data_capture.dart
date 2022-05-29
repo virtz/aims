@@ -111,6 +111,7 @@ class _DataCaptureState extends State<DataCapture> {
           model.drop2SelectedValue = widget.cd!.drop2;
           model.drop3SelectedValue = widget.cd!.drop3;
           widget.cd!.isEdited = true;
+
           // manufacturer.text = model.misc!.manufacturer!;
           // chasisNumber.text = model.misc!.chasisNo!;
           if (model.categoryList.contains(model.selectedPrdtCat)) {
@@ -146,7 +147,7 @@ class _DataCaptureState extends State<DataCapture> {
             elevation: 0.0,
             centerTitle: true,
             title: Wrap(
-              // mainAxisAlignment: MainAxisAlignment.start,
+              
               runAlignment: WrapAlignment.center,
               children: [
                 // Image.asset(
