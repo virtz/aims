@@ -126,7 +126,7 @@ class _DataCaptureState extends State<DataCapture> {
           model.lookUpProductWithCode(widget.cd!.product!);
 
           //!so the fall back value is fetched too before i assign it to thw textediting controller'
-              auditProductNameDisplay.text =
+          auditProductNameDisplay.text =
               model.product.caption ?? model.selectedAssetName!.caption!;
           extraBarcode1.text = widget.cd!.brExtra1!;
           extraBarcode2.text = widget.cd!.brExtra2!;
@@ -147,7 +147,6 @@ class _DataCaptureState extends State<DataCapture> {
             elevation: 0.0,
             centerTitle: true,
             title: Wrap(
-              
               runAlignment: WrapAlignment.center,
               children: [
                 // Image.asset(
