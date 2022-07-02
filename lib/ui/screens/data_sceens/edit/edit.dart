@@ -93,15 +93,7 @@ class _EditState extends State<Edit> {
         model.getMiscData(widget.data!.product!);
         // widget.data!.product = model.selectedAssetName;
 
-        if (model.categoryList.contains(model.misc!.selectedCategory!)) {
-          model.selectedPrdtCat = model.misc!.selectedCategory!;
-        }
-        if (model.subCategoryList.contains(model.misc!.selectedSubCategory!)) {
-          model.selectedPrdtSubCat = model.misc!.selectedSubCategory!;
-        }
-        if (model.assetTypeList.contains(model.misc!.assetType!)) {
-          model.selectedAssetType = model.misc!.assetType!;
-        }
+        model.lookUpProductWithCode(widget.data!.product!);
         // model.selectedAssetType = model.misc!.assetType!;
         var slt = model.assetNameList
             .firstWhere((element) => element.p_Code == widget.data!.product);

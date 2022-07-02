@@ -556,4 +556,43 @@ class EditDataViewModel extends BaseModel {
     setSecondPage(false);
     setThirdPage(false);
   }
+
+  lookUpProductWithCode(String code) {
+    selectedAssetName = assetNameList.firstWhere(
+        (element) => element.p_Code == code,
+        orElse: () => AssetName());
+    notifyListeners();
+    print(selectedAssetName);
+    // if (selectedAssetName == AssetName) {
+    //   selectedAssetName == null;
+    //   notifyListeners();
+    // }
+
+    if (selectedAssetName!.parentCode != null)
+      lookUpAssetTypewithParentCode(selectedAssetName!.parentCode!);
+    if (selectedAssetType != null && selectedAssetType!.subCat_Code != null)
+      lookUpAssetSubCatWithParentCode(selectedAssetType!.subCat_Code!);
+    if (selectedPrdtSubCat != null && selectedPrdtSubCat!.cat_Code != null)
+      lookUpAssetcategoryWithParentCode(selectedPrdtSubCat!.cat_Code!);
+  }
+
+  lookUpAssetTypewithParentCode(String code) {
+    selectedAssetType = assetTypeList.firstWhere(
+        (element) => element.p_Code == code,
+        orElse: () => AssetType());
+    notifyListeners();
+  }
+
+  lookUpAssetSubCatWithParentCode(String code) {
+    selectedPrdtSubCat = subCategoryList.firstWhere(
+        (element) => element.p_Code == code,
+        orElse: () => AssetSubCategory());
+    notifyListeners();
+  }
+
+  lookUpAssetcategoryWithParentCode(String code) {
+    selectedPrdtCat = categoryList.firstWhere((element) => element.code == code,
+        orElse: () => AssetCategory());
+    notifyListeners();
+  }
 }
